@@ -4,7 +4,8 @@ LIBADD = -L../src -lcitrus-logging
 noinst_PROGRAMS = \
     simple logger message datetime sender level \
     record \
-    format-text
+    format-text \
+    target-file
 
 simple_SOURCES = simple.cpp
 simple_LDADD = ../src/libcitrus-logging.la
@@ -29,3 +30,6 @@ record_LDADD = ../src/libcitrus-logging.la
 
 format_text_SOURCES = format-text.cpp
 format_text_LDADD = ../src/libcitrus-logging.la
+
+target_file_SOURCES = target-file.cpp
+target_file_LDADD = ../src/libcitrus-logging.la
