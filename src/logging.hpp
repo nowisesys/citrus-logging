@@ -27,6 +27,25 @@ namespace Citrus::Logging {
         using Arguments = std::vector<std::any>;
         class Format;
 
+        class InvalidArgumentException : public std::invalid_argument
+        {
+            public:
+                template <typename T>
+                InvalidArgumentException(std::string msg, T t)
+                    : std::invalid_argument(msg + ": " + t) {}
+                InvalidArgumentException(const char * msg)
+                    : std::invalid_argument(msg) {}
+        };
+
+        class FileSystemException : public std::runtime_error
+        {
+            public:
+                FileSystemException(std::string msg, const char * path)
+                    : std::runtime_error(msg + ": " + path) {}
+                FileSystemException(const char * msg)
+                    : std::runtime_error(msg) {}
+        };
+
         enum class Level
         {
                 Debug,       // Debug level message
@@ -37,16 +56,6 @@ namespace Citrus::Logging {
                 Critical,    // Critical conditions
                 Alert,       // Action must be taken immediately
                 Emergent     // System is unusable
-        };
-
-        class InvalidArgumentException : public std::invalid_argument
-        {
-            public:
-                template <typename T>
-                InvalidArgumentException(std::string msg, T t)
-                    : std::invalid_argument(msg + ": " + t) {}
-                InvalidArgumentException(const char * msg)
-                    : std::invalid_argument(msg) {}
         };
 
         class DateTime

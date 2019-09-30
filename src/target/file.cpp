@@ -18,6 +18,7 @@
 #endif
 
 #include "logging.hpp"
+#include <fstream>
 
 namespace Citrus::Logging {
 
@@ -26,6 +27,15 @@ namespace Citrus::Logging {
 
         void TargetFile::Append(const Record & record) const
         {
+                const std::string & message = format.GetMessage(record);
+                std::fstream stream(filename, stream.out | stream.app);
+
+                if (!stream) {
+                        throw FileSystemException("Failed open file", filename.c_str());
+                }
+                if (!stream.write(message.c_str(), message.size())) {
+                        throw FileSystemException("Failed write file", filename.c_str());
+                }
         }
 
 } // namespace Citrus::Logging
