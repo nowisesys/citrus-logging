@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libcitrus-logging
+Description: Multiplexed logger for C++
+URL: https://nowise.se/oss/citrus/logging
+Version: @VERSION@
+Requires: 
+Libs: -L${libdir} -lcitrus-logging
+Cflags: -I@includedir@/citrus
