@@ -18,29 +18,26 @@
 
 int main()
 {
-        using FormatText = Citrus::Logging::FormatText;
-        using FormatJson = Citrus::Logging::FormatJson;
-        using FormatCsv = Citrus::Logging::FormatCsv;
         using FormatSql = Citrus::Logging::FormatSql;
-
-        using TargetFile = Citrus::Logging::TargetFile;
         using Record = Citrus::Logging::Record;
 
-        TargetFile target1("/tmp/output.txt", FormatText());
-        target1.Append(Record("Hello world!"));
-        target1.Append(Record("Hello world!"));
+        FormatSql format1;
+        std::cout << format1.GetMessage(Record("Hello world"))
+                  << format1.GetMessage(Record("Hello world"));
 
-        TargetFile target2("/tmp/output.cvs", FormatCsv());
-        target2.Append(Record("Hello world!"));
-        target2.Append(Record("Hello world!"));
+        FormatSql format2("mytable");
+        std::cout << format2.GetMessage(Record("Hello world"))
+                  << format2.GetMessage(Record("Hello world"));
 
-        TargetFile target3("/tmp/output.json", FormatJson());
-        target3.Append(Record("Hello world!"));
-        target3.Append(Record("Hello world!"));
-
-        TargetFile target4("/tmp/output.sql", FormatSql());
-        target4.Append(Record("Hello world!"));
-        target4.Append(Record("Hello world!"));
+        FormatSql format3("mytable", {
+                                         {"datetime", "stamp"},
+                                         {"priority", "severity"},
+                                         {"identity", "logger"},
+                                         {"process", "pid"},
+                                         {"message", "info"},
+                                     });
+        std::cout << format3.GetMessage(Record("Hello world"))
+                  << format3.GetMessage(Record("Hello world"));
 
         return 0;
 }

@@ -20,8 +20,10 @@ missing
 *.log
 .dirstamp
 example/datetime
+example/format-csv
 example/format-text
 example/format-json
+example/format-sql
 example/level
 example/logger
 example/message

@@ -215,16 +215,30 @@ namespace Citrus::Logging {
                 bool pretty;
         };
 
-        class FormatCvs : public Format
+        class FormatCsv : public Format
         {
             public:
-                FormatCvs(char delimit = ',', char enclose = '"', char escape = '\\');
+                FormatCsv(char delimit = ',', char enclose = '"', char escape = '\\');
                 std::string GetMessage(const Record & record) const override;
 
             private:
                 char delimit;
                 char enclose;
                 char escape;
+        };
+
+        class FormatSql : public Format
+        {
+            public:
+                FormatSql();
+                FormatSql(const std::string & table);
+                FormatSql(const std::string & table, const std::map<std::string, std::string> & columns);
+
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                std::string table;
+                std::map<std::string, std::string> columns;
         };
 
         class TargetFile : public Target
