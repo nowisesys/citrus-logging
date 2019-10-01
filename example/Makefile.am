@@ -1,10 +1,14 @@
 AM_CPPFLAGS = -I../src
 LIBADD = -L../src -lcitrus-logging
 
+lib_LIBRARIES = libsupport.a
+libsupport_a_SOURCES = support.cpp support.hpp
+
 noinst_PROGRAMS = \
     simple logger message datetime sender level \
     record \
-    format-text format-json format-sql \
+    format-text format-json format-sql format-csv \
+    format-prefix format-zero \
     target-file target-stream target-syslog
 
 simple_SOURCES = simple.cpp
@@ -28,20 +32,29 @@ level_LDADD = ../src/libcitrus-logging.la
 record_SOURCES = record.cpp
 record_LDADD = ../src/libcitrus-logging.la
 
-format_text_SOURCES = format-text.cpp
-format_text_LDADD = ../src/libcitrus-logging.la
+format_text_SOURCES = format-text.cpp 
+format_text_LDADD = ../src/libcitrus-logging.la libsupport.a
 
-format_json_SOURCES = format-json.cpp
-format_json_LDADD = ../src/libcitrus-logging.la
+format_json_SOURCES = format-json.cpp 
+format_json_LDADD = ../src/libcitrus-logging.la libsupport.a
 
-format_sql_SOURCES = format-sql.cpp
-format_sql_LDADD = ../src/libcitrus-logging.la
+format_sql_SOURCES = format-sql.cpp 
+format_sql_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+format_csv_SOURCES = format-csv.cpp 
+format_csv_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+format_prefix_SOURCES = format-prefix.cpp 
+format_prefix_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+format_zero_SOURCES = format-zero.cpp 
+format_zero_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_file_SOURCES = target-file.cpp
-target_file_LDADD = ../src/libcitrus-logging.la
+target_file_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_stream_SOURCES = target-stream.cpp
-target_stream_LDADD = ../src/libcitrus-logging.la
+target_stream_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_syslog_SOURCES = target-syslog.cpp
-target_syslog_LDADD = ../src/libcitrus-logging.la
+target_syslog_LDADD = ../src/libcitrus-logging.la libsupport.a

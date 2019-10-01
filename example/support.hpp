@@ -13,12 +13,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#include "support.hpp"
+#ifndef LIBCITRUS_EXAMPLE_SUPPORT_HPP
+#define LIBCITRUS_EXAMPLE_SUPPORT_HPP
 
-int main()
-{
-        PrintFormat(FormatJson());
-        PrintFormat(FormatJson(true));
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-        return 0;
-}
+#include "logging.hpp"
+
+using namespace Citrus::Logging;
+
+void PrintFormat(const Format & format);
+void PrintTarget(const Target & target);
+
+#endif // LIBCITRUS_EXAMPLE_SUPPORT_HPP

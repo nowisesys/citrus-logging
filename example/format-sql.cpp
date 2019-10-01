@@ -13,34 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "logging.hpp"
-#include <iostream>
-
-using namespace Citrus::Logging;
+#include "support.hpp"
 
 int main()
 {
-        FormatSql format1;
-        std::cout << format1.GetMessage(Record("Hello world"))
-                  << format1.GetMessage(Record("Hello world"));
-
-        FormatSql format2("mytable");
-        std::cout << format2.GetMessage(Record("Hello world"))
-                  << format2.GetMessage(Record("Hello world"));
-
-        FormatSql format3("mytable", {
-                                         {"datetime", "stamp"},
-                                         {"priority", "severity"},
-                                         {"identity", "logger"},
-                                         {"process", "pid"},
-                                         {"message", "info"},
-                                     });
-        std::cout << format3.GetMessage(Record("Hello world"))
-                  << format3.GetMessage(Record("Hello world"));
+        PrintFormat(FormatSql());
+        PrintFormat(FormatSql("mytable"));
+        PrintFormat(FormatSql("mytable",
+                              {
+                                  {"datetime", "stamp"},
+                                  {"priority", "severity"},
+                                  {"identity", "logger"},
+                                  {"process", "pid"},
+                                  {"message", "info"},
+                              }));
 
         return 0;
 }

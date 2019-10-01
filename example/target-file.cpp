@@ -13,28 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "logging.hpp"
-#include <iostream>
-
-using namespace Citrus::Logging;
-
-static void PrintTarget(const char * filename, const Format & format)
-{
-        TargetFile target(filename, format);
-        target.Append(Record("Hello world!"));
-        target.Append(Record("Hello world!"));
-}
+#include "support.hpp"
 
 int main()
 {
-        PrintTarget("/tmp/output.txt", FormatText());
-        PrintTarget("/tmp/output.csv", FormatCsv());
-        PrintTarget("/tmp/output.json", FormatJson());
-        PrintTarget("/tmp/output.sql", FormatSql());
+        PrintTarget(TargetFile("/tmp/output.txt", FormatText()));
+        PrintTarget(TargetFile("/tmp/output.csv", FormatCsv()));
+        PrintTarget(TargetFile("/tmp/output.json", FormatJson()));
+        PrintTarget(TargetFile("/tmp/output.sql", FormatSql()));
 
         return 0;
 }

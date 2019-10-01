@@ -13,20 +13,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "logging.hpp"
-#include <iostream>
-
-using namespace Citrus::Logging;
+#include "support.hpp"
 
 int main()
 {
-        TargetSyslog target("target-syslog");
-        target.Append(Record(Level::Debug, "Hello world!"));
-        target.Append(Record(Level::Error, "Hello world!"));
+        PrintTarget(TargetSyslog("target-syslog"));
 
         return 0;
 }

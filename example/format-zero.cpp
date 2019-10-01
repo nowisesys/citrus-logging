@@ -17,8 +17,7 @@
 
 int main()
 {
-        PrintFormat(FormatJson());
-        PrintFormat(FormatJson(true));
+        PrintFormat(FormatZero());
 
         return 0;
 }

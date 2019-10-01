@@ -13,24 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "logging.hpp"
-#include <iostream>
-
-using namespace Citrus::Logging;
+#include "support.hpp"
 
 int main()
 {
-        FormatCsv format1;
-        std::cout << format1.GetMessage(Record("Hello world"))
-                  << format1.GetMessage(Record("Hello world"));
-
-        FormatCsv format2('%', '|');
-        std::cout << format2.GetMessage(Record("Hello world"))
-                  << format2.GetMessage(Record("Hello world"));
+        PrintFormat(FormatCsv());
+        PrintFormat(FormatCsv('%', '|'));
 
         return 0;
 }

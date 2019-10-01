@@ -13,28 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "logging.hpp"
+#include "support.hpp"
 #include <iostream>
-
-using namespace Citrus::Logging;
-
-static void PrintTarget(std::ostream & stream, const Format & format)
-{
-        TargetStream target(stream, format);
-        target.Append(Record("Hello world!"));
-        target.Append(Record("Hello world!"));
-}
 
 int main()
 {
-        PrintTarget(std::cout, FormatText());
-        PrintTarget(std::cout, FormatCsv());
-        PrintTarget(std::cout, FormatJson());
-        PrintTarget(std::cout, FormatSql());
+        PrintTarget(TargetStream(std::cout, FormatText()));
+        PrintTarget(TargetStream(std::cout, FormatCsv()));
+        PrintTarget(TargetStream(std::cout, FormatJson()));
+        PrintTarget(TargetStream(std::cout, FormatSql()));
 
         return 0;
 }
