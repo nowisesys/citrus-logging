@@ -25,13 +25,14 @@ LT_INIT
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([string.h])
+AC_CHECK_HEADERS([string.h syslog.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
 
 # Checks for library functions.
+AC_CHECK_FUNCS([putenv])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile

@@ -22,6 +22,10 @@
 #include <string>
 #include <vector>
 
+#ifdef HAVE_SYSLOG_H
+#include <syslog.h>
+#endif
+
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
@@ -101,6 +105,7 @@ namespace Citrus::Logging {
             public:
                 Record();
                 Record(const std::string & message);
+                Record(Level priority, const std::string & message);
                 Record(Level priority, const std::string & ident, const std::string & message);
 
                 void SetPriority(Level priority);
@@ -266,6 +271,16 @@ namespace Citrus::Logging {
             private:
                 std::ostream & stream;
         };
+
+#if defined(linux) || defined(unix)
+        class TargetSyslog : public Target
+        {
+            public:
+                TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON);
+                virtual ~TargetSyslog();
+                void Append(const Record & record) const override;
+        };
+#endif
 
 } // namespace Citrus::Logging
 

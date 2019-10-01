@@ -40,6 +40,12 @@ namespace Citrus::Logging {
                 SetProcess();
         }
 
+        Record::Record(Level priority, const std::string & message)
+            : priority(priority), message(message)
+        {
+                SetProcess();
+        }
+
         Record::Record(Level priority, const std::string & ident, const std::string & message)
             : priority(priority), ident(ident), message(message)
         {

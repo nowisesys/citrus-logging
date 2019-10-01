@@ -31,4 +31,5 @@ example/record
 example/sender
 example/target-file
 example/target-stream
+example/target-syslog
 example/simple
