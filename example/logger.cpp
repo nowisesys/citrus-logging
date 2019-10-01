@@ -16,12 +16,10 @@
 #include "logging.hpp"
 #include <iostream>
 
+using namespace Citrus::Logging;
+
 int main()
 {
-        using Logger = Citrus::Logging::Logger;
-        using Sender = Citrus::Logging::Sender;
-        using Level = Citrus::Logging::Level;
-
         Logger logger;
         int counter = 0;
 

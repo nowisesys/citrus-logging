@@ -16,11 +16,10 @@
 #include "logging.hpp"
 #include <iostream>
 
+using namespace Citrus::Logging;
+
 int main()
 {
-        using FormatJson = Citrus::Logging::FormatJson;
-        using Record = Citrus::Logging::Record;
-
         FormatJson format1;
         std::cout << format1.GetMessage(Record("Hello world"))
                   << format1.GetMessage(Record("Hello world"));

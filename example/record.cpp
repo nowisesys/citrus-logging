@@ -16,8 +16,7 @@
 #include "logging.hpp"
 #include <iostream>
 
-using Record = Citrus::Logging::Record;
-using Level = Citrus::Logging::Level;
+using namespace Citrus::Logging;
 
 static void PrintRecord(const Record & record)
 {

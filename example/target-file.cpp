@@ -16,31 +16,21 @@
 #include "logging.hpp"
 #include <iostream>
 
+using namespace Citrus::Logging;
+
+static void PrintTarget(const char * filename, const Format & format)
+{
+        TargetFile target(filename, format);
+        target.Append(Record("Hello world!"));
+        target.Append(Record("Hello world!"));
+}
+
 int main()
 {
-        using FormatText = Citrus::Logging::FormatText;
-        using FormatJson = Citrus::Logging::FormatJson;
-        using FormatCsv = Citrus::Logging::FormatCsv;
-        using FormatSql = Citrus::Logging::FormatSql;
-
-        using TargetFile = Citrus::Logging::TargetFile;
-        using Record = Citrus::Logging::Record;
-
-        TargetFile target1("/tmp/output.txt", FormatText());
-        target1.Append(Record("Hello world!"));
-        target1.Append(Record("Hello world!"));
-
-        TargetFile target2("/tmp/output.cvs", FormatCsv());
-        target2.Append(Record("Hello world!"));
-        target2.Append(Record("Hello world!"));
-
-        TargetFile target3("/tmp/output.json", FormatJson());
-        target3.Append(Record("Hello world!"));
-        target3.Append(Record("Hello world!"));
-
-        TargetFile target4("/tmp/output.sql", FormatSql());
-        target4.Append(Record("Hello world!"));
-        target4.Append(Record("Hello world!"));
+        PrintTarget("/tmp/output.txt", FormatText());
+        PrintTarget("/tmp/output.csv", FormatCsv());
+        PrintTarget("/tmp/output.json", FormatJson());
+        PrintTarget("/tmp/output.sql", FormatSql());
 
         return 0;
 }

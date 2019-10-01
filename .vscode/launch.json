@@ -8,8 +8,12 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "example/logger",
-            "args": [],
+            "program": "/usr/bin/libtool",
+            "args": [
+                "--mode=execute",
+                "gdb",
+                "example/logger"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

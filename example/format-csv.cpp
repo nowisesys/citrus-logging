@@ -16,11 +16,10 @@
 #include "logging.hpp"
 #include <iostream>
 
+using namespace Citrus::Logging;
+
 int main()
 {
-        using FormatCsv = Citrus::Logging::FormatCsv;
-        using Record = Citrus::Logging::Record;
-
         FormatCsv format1;
         std::cout << format1.GetMessage(Record("Hello world"))
                   << format1.GetMessage(Record("Hello world"));
