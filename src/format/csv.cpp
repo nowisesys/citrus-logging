@@ -17,34 +17,18 @@
 #include "config.h"
 #endif
 
+#include "escape.hpp"
 #include "logging.hpp"
 #include <iomanip>
 #include <sstream>
 #include <string>
 
-namespace {
-
-        std::string GetEscaped(std::string input, char enclose, char escape)
-        {
-                std::stringstream ss;
-                ss << std::quoted(input, enclose, escape);
-                return ss.str();
-        }
-
-        template <typename T>
-        std::string GetEscaped(T input, char enclose, char escape)
-        {
-                return std::to_string(input);
-        }
-
-} // namespace
-
 namespace Citrus::Logging {
 
-        FormatCvs::FormatCvs(char delimit, char enclose, char escape)
+        FormatCsv::FormatCsv(char delimit, char enclose, char escape)
             : delimit(delimit), enclose(enclose), escape(escape) {}
 
-        std::string FormatCvs::GetMessage(const Record & record) const
+        std::string FormatCsv::GetMessage(const Record & record) const
         {
                 std::ostringstream oss;
 
