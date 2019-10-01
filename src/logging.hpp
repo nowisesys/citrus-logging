@@ -205,6 +205,16 @@ namespace Citrus::Logging {
                 char lines;
         };
 
+        class FormatJson : public Format
+        {
+            public:
+                FormatJson(bool pretty = false);
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                bool pretty;
+        };
+
         class TargetFile : public Target
         {
             public:
