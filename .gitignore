@@ -30,4 +30,5 @@ example/message
 example/record
 example/sender
 example/target-file
+example/target-stream
 example/simple

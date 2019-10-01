@@ -5,7 +5,7 @@ noinst_PROGRAMS = \
     simple logger message datetime sender level \
     record \
     format-text format-json format-sql \
-    target-file
+    target-file target-stream
 
 simple_SOURCES = simple.cpp
 simple_LDADD = ../src/libcitrus-logging.la
@@ -39,3 +39,6 @@ format_sql_LDADD = ../src/libcitrus-logging.la
 
 target_file_SOURCES = target-file.cpp
 target_file_LDADD = ../src/libcitrus-logging.la
+
+target_stream_SOURCES = target-stream.cpp
+target_stream_LDADD = ../src/libcitrus-logging.la

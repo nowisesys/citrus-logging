@@ -251,6 +251,16 @@ namespace Citrus::Logging {
                 std::string filename;
         };
 
+        class TargetStream : public Target
+        {
+            public:
+                TargetStream(std::ostream & stream, const Format & format = FormatText());
+                void Append(const Record & record) const override;
+
+            private:
+                std::ostream & stream;
+        };
+
 } // namespace Citrus::Logging
 
 #endif // LIBCITRUS_LOGGING_HPP
