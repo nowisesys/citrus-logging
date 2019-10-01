@@ -194,6 +194,12 @@ namespace Citrus::Logging {
                 std::string ident;
         };
 
+        class FormatZero : public Format
+        {
+            public:
+                std::string GetMessage(const Record & record) const override;
+        };
+
         class FormatText : public Format
         {
             public:
