@@ -21,8 +21,8 @@
 
 namespace Citrus::Logging {
 
-        TargetSyslog::TargetSyslog(const char * ident, int option, int facility)
-            : Target(FormatZero())
+        TargetSyslog::TargetSyslog(const char * ident, int option, int facility, const Format & format)
+            : Target(format)
         {
                 openlog(ident, option, facility);
         }
@@ -34,7 +34,7 @@ namespace Citrus::Logging {
 
         void TargetSyslog::Append(const Record & record) const
         {
-                syslog(static_cast<int>(record.GetPriority()), "%s", record.GetMessage().c_str());
+                syslog(static_cast<int>(record.GetPriority()), "%s", format.GetMessage(record).c_str());
         }
 
 } // namespace Citrus::Logging

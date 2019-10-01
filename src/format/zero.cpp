@@ -23,7 +23,7 @@ namespace Citrus::Logging {
 
         std::string FormatZero::GetMessage(const Record & record) const
         {
-                return "";
+                return record.GetMessage();
         }
 
 } // namespace Citrus::Logging
