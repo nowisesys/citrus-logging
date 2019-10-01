@@ -18,19 +18,16 @@
 
 int main()
 {
-        using FormatText = Citrus::Logging::FormatText;
         using FormatJson = Citrus::Logging::FormatJson;
-
-        using TargetFile = Citrus::Logging::TargetFile;
         using Record = Citrus::Logging::Record;
 
-        TargetFile target1("/tmp/output.txt", FormatText());
-        target1.Append(Record("Hello world!"));
-        target1.Append(Record("Hello world!"));
+        FormatJson format1;
+        std::cout << format1.GetMessage(Record("Hello world"))
+                  << format1.GetMessage(Record("Hello world"));
 
-        TargetFile target2("/tmp/output.json", FormatJson());
-        target2.Append(Record("Hello world!"));
-        target2.Append(Record("Hello world!"));
+        FormatJson format2(true);
+        std::cout << format2.GetMessage(Record("Hello world"))
+                  << format2.GetMessage(Record("Hello world"));
 
         return 0;
 }
