@@ -21,6 +21,7 @@ missing
 .dirstamp
 example/datetime
 example/format-text
+example/format-json
 example/level
 example/logger
 example/message

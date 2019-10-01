@@ -11,7 +11,7 @@ libcitrus_logging_la_SOURCES = logging.hpp logging.cpp \
     logger.cpp message.cpp datetime.cpp format.cpp \
     record.cpp sender.cpp target.cpp \
     target/file.cpp \
-    format/text.cpp format/json.cpp
+    format/text.cpp format/json.cpp format/cvs.cpp
 
 libcitrus_logging_la_LDFLAGS  = -version-info 1:0:0
 libcitrus_logging_la_CXXFLAGS = -DLIBSOCKPP_EXPORTS=1

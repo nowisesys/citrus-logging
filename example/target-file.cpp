@@ -20,6 +20,7 @@ int main()
 {
         using FormatText = Citrus::Logging::FormatText;
         using FormatJson = Citrus::Logging::FormatJson;
+        using FormatCvs = Citrus::Logging::FormatCvs;
 
         using TargetFile = Citrus::Logging::TargetFile;
         using Record = Citrus::Logging::Record;
@@ -28,9 +29,13 @@ int main()
         target1.Append(Record("Hello world!"));
         target1.Append(Record("Hello world!"));
 
-        TargetFile target2("/tmp/output.json", FormatJson());
+        TargetFile target2("/tmp/output.cvs", FormatCvs());
         target2.Append(Record("Hello world!"));
         target2.Append(Record("Hello world!"));
+
+        TargetFile target3("/tmp/output.json", FormatJson());
+        target3.Append(Record("Hello world!"));
+        target3.Append(Record("Hello world!"));
 
         return 0;
 }
