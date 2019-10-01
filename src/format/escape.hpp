@@ -16,10 +16,6 @@
 #ifndef LIBCITRUS_FORMAT_ESCAPE_HPP
 #define LIBCITRUS_FORMAT_ESCAPE_HPP
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <iomanip>
 #include <string>
 
