@@ -252,6 +252,27 @@ namespace Citrus::Logging {
                 std::map<std::string, std::string> columns;
         };
 
+        class FormatPrefix : public Format
+        {
+            public:
+                enum class Mapping
+                {
+                        Default,   // i.e. "Error: Text message"
+                        LowerCase, // i.e. "error: Text message"
+                        UpperCase, // i.e. "ERROR: Text message"
+                        ShortTag   // i.e. "[e]: Text message
+                };
+
+                explicit FormatPrefix();
+                FormatPrefix(Mapping mapping);
+                FormatPrefix(const std::map<Level, std::string> & mapping);
+
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                std::map<Level, std::string> mapping;
+        };
+
         class TargetFile : public Target
         {
             public:
