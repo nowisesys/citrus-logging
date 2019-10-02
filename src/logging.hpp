@@ -355,6 +355,8 @@ namespace Citrus::Logging {
                 void AddHeader(const char * name, const char * value);
                 void AddHeader(const std::string & value);
 
+                void SetLogin(const char * user, const char * pass) const;
+
             private:
                 CURL * curl;
                 curl_slist * headers;

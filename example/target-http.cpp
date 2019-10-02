@@ -24,6 +24,7 @@ int main()
         target.AddHeader("Content-Type: application/json");
         target.AddHeader("X-Sender", "Citrus Logging");
         target.SetOption(CURLOPT_VERBOSE, 1);
+        target.SetLogin("token123", "secret");
         PrintTarget(target);
 
         return 0;

@@ -118,6 +118,16 @@ namespace Citrus::Logging {
                 headers = temp;
         }
 
+        void TargetHttp::SetLogin(const char * user, const char * pass) const
+        {
+                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_USERNAME, user); res != 0) {
+                        throw NetworkException("Failed set login username", curl_easy_strerror(res));
+                }
+                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_PASSWORD, pass); res != 0) {
+                        throw NetworkException("Failed set login password", curl_easy_strerror(res));
+                }
+        }
+
 } // namespace Citrus::Logging
 
 #endif // HAVE_LIBCURL
