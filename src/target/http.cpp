@@ -51,10 +51,10 @@ namespace Citrus::Logging {
                 }
 
 #if defined(LIBCURL_PROTOCOL_HTTPS)
-                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0)) != 0) {
+                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 2)) != 0) {
                         throw NetworkException("Failed set CURLOPT_SSL_VERIFYPEER", curl_easy_strerror(res));
                 }
-                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0)) != 0) {
+                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2)) != 0) {
                         throw NetworkException("Failed set CURLOPT_SSL_VERIFYHOST", curl_easy_strerror(res));
                 }
 #endif
