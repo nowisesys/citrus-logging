@@ -17,7 +17,8 @@
 
 int main()
 {
-        PrintTarget(TargetSyslog("target-syslog"));
+        PrintTarget(TargetSyslog("target-syslog1"));
+        PrintTarget(TargetSyslog("target-syslog2", FormatPrefix()));
 
         return 0;
 }

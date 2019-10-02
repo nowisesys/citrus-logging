@@ -27,6 +27,12 @@ namespace Citrus::Logging {
                 openlog(ident, option, facility);
         }
 
+        TargetSyslog::TargetSyslog(const char * ident, const Format & format)
+            : Target(format)
+        {
+                openlog(ident, LOG_CONS | LOG_PID, LOG_DAEMON);
+        }
+
         TargetSyslog::~TargetSyslog()
         {
                 closelog();

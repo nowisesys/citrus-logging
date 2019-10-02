@@ -297,6 +297,7 @@ namespace Citrus::Logging {
         class TargetSyslog : public Target
         {
             public:
+                TargetSyslog(const char * ident, const Format & format);
                 TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON, const Format & format = FormatZero());
                 virtual ~TargetSyslog();
                 void Append(const Record & record) const override;
