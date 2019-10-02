@@ -20,5 +20,11 @@ int main()
         PrintTarget(TargetHttp("http://localhost/http.php"));
         PrintTarget(TargetHttp("http://localhost/http.php", FormatXml()));
 
+        TargetHttp target("http://localhost/http.php");
+        target.AddHeader("Content-Type: application/json");
+        target.AddHeader("X-Sender", "Citrus Logging");
+        target.SetOption(CURLOPT_VERBOSE, 1);
+        PrintTarget(target);
+
         return 0;
 }

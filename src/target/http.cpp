@@ -29,7 +29,7 @@ namespace {
 namespace Citrus::Logging {
 
         TargetHttp::TargetHttp(const std::string & url, const Format & format)
-            : curl(nullptr), Target(format)
+            : curl(nullptr), headers(nullptr), Target(format)
         {
                 CURLcode res;
 
@@ -68,14 +68,20 @@ namespace Citrus::Logging {
                 if (--init == 0) {
                         curl_global_cleanup();
                 }
+                if (headers) {
+                        curl_slist_free_all(headers);
+                }
         }
 
         void TargetHttp::Append(const Record & record) const
         {
                 const std::string & message = format.GetMessage(record);
 
+                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers); res != 0) {
+                        throw NetworkException("Failed set headers", curl_easy_strerror(res));
+                }
                 if (CURLcode res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, message.c_str()); res != 0) {
-                        throw NetworkException("Failed set option", curl_easy_strerror(res));
+                        throw NetworkException("Failed set CURLOPT_POSTFIELDS", curl_easy_strerror(res));
                 }
                 if (CURLcode res = curl_easy_perform(curl); res != 0) {
                         throw NetworkException("Failed send request", curl_easy_strerror(res));
@@ -94,6 +100,22 @@ namespace Citrus::Logging {
                 if (CURLcode res = curl_easy_setopt(curl, option, value.c_str()); res != 0) {
                         throw NetworkException("Failed set option", curl_easy_strerror(res));
                 }
+        }
+
+        void TargetHttp::AddHeader(const char * name, const char * value)
+        {
+                AddHeader(std::string(name) + ": " + std::string(value));
+        }
+
+        void TargetHttp::AddHeader(const std::string & header)
+        {
+                curl_slist * temp = curl_slist_append(headers, header.c_str());
+
+                if (!temp) {
+                        throw NetworkException("Failed set HTTP header", header.c_str());
+                }
+
+                headers = temp;
         }
 
 } // namespace Citrus::Logging

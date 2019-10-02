@@ -345,7 +345,6 @@ namespace Citrus::Logging {
         {
             public:
                 TargetHttp(const std::string & url, const Format & format = FormatJson());
-                // TargetHttp(const std::string & url, const std::string & params, const Format & format = FormatJson());
                 virtual ~TargetHttp();
 
                 void Append(const Record & record) const override;
@@ -353,8 +352,12 @@ namespace Citrus::Logging {
                 void SetOption(CURLoption option, long value) const;
                 void SetOption(CURLoption option, const std::string & value) const;
 
+                void AddHeader(const char * name, const char * value);
+                void AddHeader(const std::string & value);
+
             private:
                 CURL * curl;
+                curl_slist * headers;
         };
 #endif
 
