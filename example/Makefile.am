@@ -9,7 +9,8 @@ noinst_PROGRAMS = \
     record \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
-    target-file target-stream target-syslog
+    target-file target-stream target-syslog \
+    target-http
 
 simple_SOURCES = simple.cpp
 simple_LDADD = ../src/libcitrus-logging.la
@@ -64,3 +65,6 @@ target_stream_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_syslog_SOURCES = target-syslog.cpp
 target_syslog_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+target_http_SOURCES = target-http.cpp
+target_http_LDADD = ../src/libcitrus-logging.la libsupport.a

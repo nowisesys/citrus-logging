@@ -27,6 +27,10 @@
 #include <syslog.h>
 #endif
 
+#ifdef HAVE_LIBCURL
+#include <curl/curl.h>
+#endif
+
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
@@ -48,6 +52,15 @@ namespace Citrus::Logging {
                 FileSystemException(std::string msg, const char * path)
                     : std::runtime_error(msg + ": " + path) {}
                 FileSystemException(const char * msg)
+                    : std::runtime_error(msg) {}
+        };
+
+        class NetworkException : public std::runtime_error
+        {
+            public:
+                NetworkException(std::string msg, const char * error)
+                    : std::runtime_error(msg + ": " + error) {}
+                NetworkException(const char * msg)
                     : std::runtime_error(msg) {}
         };
 
@@ -315,14 +328,33 @@ namespace Citrus::Logging {
                 std::ostream & stream;
         };
 
-#if defined(linux) || defined(unix)
+#if defined(HAVE_SYSLOG_H)
         class TargetSyslog : public Target
         {
             public:
                 TargetSyslog(const char * ident, const Format & format);
                 TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON, const Format & format = FormatZero());
                 virtual ~TargetSyslog();
+
                 void Append(const Record & record) const override;
+        };
+#endif
+
+#if defined(HAVE_LIBCURL) && defined(LIBCURL_PROTOCOL_HTTP)
+        class TargetHttp : public Target
+        {
+            public:
+                TargetHttp(const std::string & url, const Format & format = FormatJson());
+                // TargetHttp(const std::string & url, const std::string & params, const Format & format = FormatJson());
+                virtual ~TargetHttp();
+
+                void Append(const Record & record) const override;
+
+                void SetOption(CURLoption option, long value) const;
+                void SetOption(CURLoption option, const std::string & value) const;
+
+            private:
+                CURL * curl;
         };
 #endif
 

@@ -23,6 +23,7 @@ AC_PROG_RANLIB
 LT_INIT
 
 # Checks for libraries.
+LIBCURL_CHECK_CONFIG
 
 # Checks for header files.
 AC_CHECK_HEADERS([string.h syslog.h unistd.h])
