@@ -227,6 +227,17 @@ namespace Citrus::Logging {
                 bool pretty;
         };
 
+        class FormatXml : public Format
+        {
+            public:
+                FormatXml(bool pretty = false, bool attrib = true);
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                bool pretty;
+                bool attrib;
+        };
+
         class FormatCsv : public Format
         {
             public:

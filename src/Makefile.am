@@ -13,7 +13,8 @@ libcitrus_logging_la_SOURCES = logging.hpp logging.cpp \
     target/file.cpp target/stream.cpp target/syslog.cpp \
     format/text.cpp format/json.cpp format/csv.cpp \
     format/sql.cpp format/escape.cpp format/escape.hpp \
-    format/zero.cpp format/prefix.cpp format/user.cpp
+    format/zero.cpp format/prefix.cpp format/user.cpp \
+    format/xml.cpp
 
 libcitrus_logging_la_LDFLAGS  = -version-info 1:0:0
 libcitrus_logging_la_CXXFLAGS = -DLIBSOCKPP_EXPORTS=1

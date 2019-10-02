@@ -24,6 +24,7 @@ example/format-csv
 example/format-text
 example/format-json
 example/format-sql
+example/format-xml
 example/format-prefix
 example/format-zero
 example/format-user

@@ -8,7 +8,7 @@ noinst_PROGRAMS = \
     simple logger message datetime sender level \
     record \
     format-text format-json format-sql format-csv \
-    format-prefix format-zero format-user \
+    format-prefix format-zero format-user format-xml \
     target-file target-stream target-syslog
 
 simple_SOURCES = simple.cpp
@@ -52,6 +52,9 @@ format_zero_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 format_user_SOURCES = format-user.cpp 
 format_user_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+format_xml_SOURCES = format-xml.cpp 
+format_xml_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_file_SOURCES = target-file.cpp
 target_file_LDADD = ../src/libcitrus-logging.la libsupport.a
