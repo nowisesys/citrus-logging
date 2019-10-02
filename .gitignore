@@ -26,6 +26,7 @@ example/format-json
 example/format-sql
 example/format-prefix
 example/format-zero
+example/format-user
 example/level
 example/logger
 example/message

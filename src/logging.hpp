@@ -18,6 +18,7 @@
 
 #include <any>
 #include <chrono>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
@@ -271,6 +272,16 @@ namespace Citrus::Logging {
 
             private:
                 std::map<Level, std::string> mapping;
+        };
+
+        class FormatUser : public Format
+        {
+            public:
+                FormatUser(const std::function<std::string(const Record & record, const Format * format)> & formatter);
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                const std::function<std::string(const Record & record, const Format * format)> & formatter;
         };
 
         class TargetFile : public Target
