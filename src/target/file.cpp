@@ -23,12 +23,12 @@
 namespace Citrus::Logging {
 
         TargetFile::TargetFile(const char * filename, const Format & format)
-            : filename(filename), Target(format) {}
+            : Target(format), filename(filename) {}
 
         void TargetFile::Append(const Record & record) const
         {
                 const std::string & message = format.GetMessage(record);
-                std::fstream stream(filename, stream.out | stream.app);
+                std::ofstream stream(filename, std::ios::app);
 
                 if (!stream) {
                         throw FileSystemException("Failed open file", filename.c_str());

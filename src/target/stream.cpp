@@ -23,7 +23,7 @@
 namespace Citrus::Logging {
 
         TargetStream::TargetStream(std::ostream & stream, const Format & format)
-            : stream(stream), Target(format) {}
+            : Target(format), stream(stream) {}
 
         void TargetStream::Append(const Record & record) const
         {

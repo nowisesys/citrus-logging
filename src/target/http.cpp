@@ -29,7 +29,7 @@ namespace {
 namespace Citrus::Logging {
 
         TargetHttp::TargetHttp(const std::string & url, const Format & format)
-            : curl(nullptr), headers(nullptr), Target(format)
+            : Target(format), curl(nullptr), headers(nullptr)
         {
                 CURLcode res;
 
