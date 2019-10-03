@@ -40,6 +40,11 @@ namespace Citrus::Logging {
                 }
         }
 
+        void Sender::Write(Level priority, const std::string & message) const
+        {
+                Write(Record(priority, message));
+        }
+
         void Sender::Write(Level priority, const std::string & ident, const std::string & message) const
         {
                 Write(Record(priority, ident, message));
@@ -49,7 +54,7 @@ namespace Citrus::Logging {
         {
                 Level priority = record.GetPriority();
                 if (auto result = targets.find(priority); result != targets.end()) {
-                        for (auto target : result->second) {
+                        for (auto & target : result->second) {
                                 target->Append(record);
                         }
                 }
