@@ -14,9 +14,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //
-// This example demonstate how to define multiple log targets and
-// connecting them with severity levels. An implementation would derive
-// from the logger class.
+// This example demonstate how to connect mutiple log targets with
+// severity levels for unified logging thru the logger.
 //
 
 #include "logging.hpp"
@@ -50,6 +49,11 @@ int main()
         // Set severity threshold (will display all messages):
         //
         logger.SetThreshold(Level::Debug);
+
+        // 
+        // The identity will be include in each log message:
+        // 
+        logger.SetIdentity("my-logger");
 
         //
         // Use method to severity mapping methods:

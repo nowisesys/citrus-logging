@@ -9,7 +9,7 @@ noinst_PROGRAMS = \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
     target-file target-stream target-syslog \
-    target-http
+    target-http derived
 
 logger_SOURCES = logger.cpp
 logger_LDADD = ../src/libcitrus-logging.la
@@ -64,3 +64,6 @@ target_syslog_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_http_SOURCES = target-http.cpp
 target_http_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+derived_SOURCES = derived.cpp derived.hpp
+derived_LDADD = ../src/libcitrus-logging.la libsupport.a

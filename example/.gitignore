@@ -17,3 +17,4 @@ target-file
 target-stream
 target-syslog
 target-http
+derived
