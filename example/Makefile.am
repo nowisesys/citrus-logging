@@ -5,15 +5,11 @@ lib_LIBRARIES = libsupport.a
 libsupport_a_SOURCES = support.cpp support.hpp
 
 noinst_PROGRAMS = \
-    simple logger message datetime sender level \
-    record \
+    logger message datetime sender level record \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
     target-file target-stream target-syslog \
     target-http
-
-simple_SOURCES = simple.cpp
-simple_LDADD = ../src/libcitrus-logging.la
 
 logger_SOURCES = logger.cpp
 logger_LDADD = ../src/libcitrus-logging.la

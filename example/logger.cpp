@@ -14,7 +14,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "logging.hpp"
-#include <iostream>
 
 using namespace Citrus::Logging;
 
