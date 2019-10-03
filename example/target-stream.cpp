@@ -18,6 +18,9 @@
 
 int main()
 {
+        PrintTarget(TargetStream(std::cout));
+        PrintTarget(TargetStream(std::cerr));
+
         PrintTarget(TargetStream(std::cout, FormatText()));
         PrintTarget(TargetStream(std::cout, FormatCsv()));
         PrintTarget(TargetStream(std::cout, FormatJson()));
