@@ -34,7 +34,6 @@
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
-        class Format;
 
         class InvalidArgumentException : public std::invalid_argument
         {
@@ -110,10 +109,11 @@ namespace Citrus::Logging {
                 static DateTime Now(const char * format = Format::Human);
 
             private:
-                TimePoint stamp;
                 const char * format;
+                TimePoint stamp;
         };
 
+        class Format;
         class Record
         {
             public:
@@ -153,10 +153,10 @@ namespace Citrus::Logging {
         class Target
         {
             public:
-                Target(const Format & format);
                 virtual void Append(const Record & record) const = 0;
 
             protected:
+                Target(const Format & format);
                 const Format & format;
         };
 
@@ -173,6 +173,7 @@ namespace Citrus::Logging {
                 void Register(Target * target, Level level);
                 void Register(Target * target, Level lower, Level upper);
 
+                void Write(Level priority, const std::string & message) const;
                 void Write(Level priority, const std::string & ident, const std::string & message) const;
                 void Write(const Record & record) const;
 
@@ -288,7 +289,7 @@ namespace Citrus::Logging {
                         ShortTag   // i.e. "[e]: Text message
                 };
 
-                explicit FormatPrefix();
+                FormatPrefix();
                 FormatPrefix(Mapping mapping);
                 FormatPrefix(const std::map<Level, std::string> & mapping);
 
@@ -308,10 +309,20 @@ namespace Citrus::Logging {
                 const std::function<std::string(const Record & record, const Format * format)> & formatter;
         };
 
+        template <class Format>
+        struct RecordFormat
+        {
+                static Format & Object()
+                {
+                        static Format format;
+                        return format;
+                }
+        };
+
         class TargetFile : public Target
         {
             public:
-                TargetFile(const char * filename, const Format & format = FormatText());
+                TargetFile(const char * filename, const Format & format = RecordFormat<FormatText>::Object());
                 void Append(const Record & record) const override;
 
             private:
@@ -321,7 +332,7 @@ namespace Citrus::Logging {
         class TargetStream : public Target
         {
             public:
-                TargetStream(std::ostream & stream, const Format & format = FormatText());
+                TargetStream(std::ostream & stream, const Format & format = RecordFormat<FormatText>::Object());
                 void Append(const Record & record) const override;
 
             private:
@@ -333,7 +344,7 @@ namespace Citrus::Logging {
         {
             public:
                 TargetSyslog(const char * ident, const Format & format);
-                TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON, const Format & format = FormatZero());
+                TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON, const Format & format = RecordFormat<FormatZero>::Object());
                 virtual ~TargetSyslog();
 
                 void Append(const Record & record) const override;
@@ -344,7 +355,7 @@ namespace Citrus::Logging {
         class TargetHttp : public Target
         {
             public:
-                TargetHttp(const std::string & url, const Format & format = FormatJson());
+                TargetHttp(const std::string & url, const Format & format = RecordFormat<FormatJson>::Object());
                 virtual ~TargetHttp();
 
                 void Append(const Record & record) const override;
