@@ -15,7 +15,6 @@
 
 #include "support.hpp"
 
-// using namespace Citrus::Logging;
 using Mapping = FormatPrefix::Mapping;
 
 int main()
