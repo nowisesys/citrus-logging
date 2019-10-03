@@ -153,6 +153,7 @@ namespace Citrus::Logging {
         class Target
         {
             public:
+                virtual ~Target() = default;
                 virtual void Append(const Record & record) const = 0;
 
             protected:
