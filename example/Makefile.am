@@ -9,7 +9,7 @@ noinst_PROGRAMS = \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
     target-file target-stream target-syslog target-http \
-    utils-uuid
+    utils-uuid utils-escape
 
 logger_SOURCES = logger.cpp
 logger_LDADD = ../src/libcitrus-logging.la
@@ -71,3 +71,6 @@ target_http_LDADD = ../src/libcitrus-logging.la libsupport.a
 utils_uuid_SOURCES = utils-uuid.cpp
 utils_uuid_LDADD = ../src/libcitrus-logging.la @UUID_LIBS@
 utils_uuid_CPPFLAGS = $(AM_CPPFLAGS) @UUID_CFLAGS@
+
+utils_escape_SOURCES = utils-escape.cpp
+utils_escape_LDADD = ../src/libcitrus-logging.la

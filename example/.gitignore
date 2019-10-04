@@ -19,3 +19,4 @@ target-syslog
 target-http
 derived
 utils-uuid
+utils-escape

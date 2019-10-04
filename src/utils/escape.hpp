@@ -21,10 +21,11 @@
 
 namespace Citrus::Logging {
 
-        extern std::string GetEscaped(std::string input, char enclose, char escape);
+        extern std::string GetEscaped(std::string input, char enclose = '"', char escape = '\\');
+        extern std::string GetEscaped(const char * input, char enclose = '"', char escape = '\\');
 
         template <typename T>
-        std::string GetEscaped(T input, char enclose, char escape)
+        std::string GetEscaped(T input, char enclose = '"', char escape = '\\')
         {
                 return std::to_string(input);
         }

@@ -23,6 +23,11 @@
 
 namespace Citrus::Logging {
 
+        std::string GetEscaped(const char * input, char enclose, char escape)
+        {
+                return GetEscaped(std::string(input), enclose, escape);
+        }
+
         std::string GetEscaped(std::string input, char enclose, char escape)
         {
                 std::stringstream ss;
