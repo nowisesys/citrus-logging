@@ -21,9 +21,13 @@
 #include <iomanip>
 #include <string>
 
-std::string GetEscaped(std::string input, char enclose, char escape)
-{
-        std::stringstream ss;
-        ss << std::quoted(input, enclose, escape);
-        return ss.str();
-}
+namespace Citrus::Logging {
+
+        std::string GetEscaped(std::string input, char enclose, char escape)
+        {
+                std::stringstream ss;
+                ss << std::quoted(input, enclose, escape);
+                return ss.str();
+        }
+
+} // namespace Citrus::Logging
