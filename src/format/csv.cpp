@@ -17,7 +17,7 @@
 #include "config.h"
 #endif
 
-#include "escape.hpp"
+#include "utils/escape.hpp"
 #include "logging.hpp"
 #include <iomanip>
 #include <sstream>
