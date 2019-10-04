@@ -18,3 +18,4 @@ target-stream
 target-syslog
 target-http
 derived
+utils-uuid

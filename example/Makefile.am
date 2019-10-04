@@ -5,11 +5,11 @@ lib_LIBRARIES = libsupport.a
 libsupport_a_SOURCES = support.cpp support.hpp
 
 noinst_PROGRAMS = \
-    logger message datetime sender level record \
+    logger message datetime sender level record derived \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
-    target-file target-stream target-syslog \
-    target-http derived
+    target-file target-stream target-syslog target-http \
+    utils-uuid
 
 logger_SOURCES = logger.cpp
 logger_LDADD = ../src/libcitrus-logging.la
@@ -28,6 +28,9 @@ level_LDADD = ../src/libcitrus-logging.la
 
 record_SOURCES = record.cpp
 record_LDADD = ../src/libcitrus-logging.la
+
+derived_SOURCES = derived.cpp derived.hpp
+derived_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 format_text_SOURCES = format-text.cpp 
 format_text_LDADD = ../src/libcitrus-logging.la libsupport.a
@@ -65,5 +68,6 @@ target_syslog_LDADD = ../src/libcitrus-logging.la libsupport.a
 target_http_SOURCES = target-http.cpp
 target_http_LDADD = ../src/libcitrus-logging.la libsupport.a
 
-derived_SOURCES = derived.cpp derived.hpp
-derived_LDADD = ../src/libcitrus-logging.la libsupport.a
+utils_uuid_SOURCES = utils-uuid.cpp
+utils_uuid_LDADD = ../src/libcitrus-logging.la @UUID_LIBS@
+utils_uuid_CPPFLAGS = $(AM_CPPFLAGS) @UUID_CFLAGS@
