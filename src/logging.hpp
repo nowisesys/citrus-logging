@@ -313,6 +313,17 @@ namespace Citrus::Logging {
                 const std::function<std::string(const Record & record, const Format * format)> & formatter;
         };
 
+        class FormatColumn : public Format
+        {
+            public:
+                FormatColumn(char field = ':', char lines = '\n');
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                char field;
+                char lines;
+        };
+
         template <class Format, typename... Params>
         struct RecordFormat
         {
@@ -454,8 +465,8 @@ namespace Citrus::Logging {
                         const CurlHandle * chandle;
                 };
 
-                TargetSmtp(const std::string & url, const Format & format = RecordFormat<FormatXml>::Object());
-                TargetSmtp(const std::string & url, const Message & message, const Format & format = RecordFormat<FormatXml>::Object());
+                TargetSmtp(const std::string & url, const Format & format = RecordFormat<FormatColumn>::Object());
+                TargetSmtp(const std::string & url, const Message & message, const Format & format = RecordFormat<FormatColumn>::Object());
                 ~TargetSmtp();
 
                 void Append(const Record & record) const override;

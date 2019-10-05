@@ -8,6 +8,7 @@ noinst_PROGRAMS = \
     logger message datetime sender level record derived \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
+    format-column \
     target-file target-stream target-syslog target-http \
     target-smtp \
     utils-uuid utils-escape
@@ -56,6 +57,9 @@ format_user_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 format_xml_SOURCES = format-xml.cpp 
 format_xml_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+format_column_SOURCES = format-column.cpp 
+format_column_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_file_SOURCES = target-file.cpp
 target_file_LDADD = ../src/libcitrus-logging.la libsupport.a
