@@ -32,7 +32,7 @@ namespace Citrus::Logging {
                         Indexed
                 };
 
-                PlaceHolder(const char *format)
+                PlaceHolder(const char * format)
                     : curr(*(format + 0)),
                       next(*(format + 1))
                 {
@@ -68,7 +68,7 @@ namespace Citrus::Logging {
                 Type type;
         };
 
-        std::string Message::Format(const char *format, const Arguments &args)
+        std::string Message::Format(const char * format, const Arguments & args)
         {
                 std::ostringstream iss;
 
@@ -106,8 +106,10 @@ namespace Citrus::Logging {
                                         iss << std::boolalpha << std::any_cast<bool>(args[index]);
                                 } else if (args[index].type() == typeid(const char *)) {
                                         iss << std::any_cast<const char *>(args[index]);
+                                } else if (args[index].type() == typeid(std::string)) {
+                                        iss << std::any_cast<std::string>(args[index]);
                                 } else {
-                                        throw InvalidArgumentException("Unknown conversion specifier", holder.next);
+                                        throw InvalidArgumentException("Unknown conversion for specifier", holder.next);
                                 }
                         }
                         if (holder.type != PlaceHolder::Type::Character) {
@@ -116,6 +118,11 @@ namespace Citrus::Logging {
                 }
 
                 return iss.str();
+        }
+
+        std::string Message::Format(const std::string & format, const Arguments & args)
+        {
+                return Format(format.c_str());
         }
 
 } // namespace Citrus::Logging
