@@ -18,9 +18,9 @@
 #endif
 
 #include "logging.hpp"
+#include "utils/curl.hpp"
 
 #ifdef HAVE_LIBCURL
-#include <curl/curl.h>
 
 namespace {
         static int init;
@@ -29,77 +29,42 @@ namespace {
 namespace Citrus::Logging {
 
         TargetHttp::TargetHttp(const std::string & url, const Format & format)
-            : Target(format), curl(nullptr), headers(nullptr)
+            : Target(format)
         {
-                CURLcode res;
+                chandle = new CurlHandle(url);
+                headers = new CurlStringList();
 
-                if (init++ == 0) {
-                        if (curl_global_init(CURL_GLOBAL_ALL)) {
-                                throw NetworkException("Failed initialize cURL");
-                        }
-                }
-
-                if ((curl = curl_easy_init()) == 0) {
-                        throw NetworkException("Failed initialize cURL");
-                }
-
-                if ((res = curl_easy_setopt(curl, CURLOPT_URL, url.c_str())) != 0) {
-                        throw NetworkException("Failed set CURLOPT_URL", curl_easy_strerror(res));
-                }
-                if ((res = curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, -1L)) != 0) {
-                        throw NetworkException("Failed set CURLOPT_POSTFIELDSIZE", curl_easy_strerror(res));
-                }
+                chandle->SetOption(CURLOPT_POSTFIELDSIZE, -1L);
 
 #if defined(LIBCURL_PROTOCOL_HTTPS)
-                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 2)) != 0) {
-                        throw NetworkException("Failed set CURLOPT_SSL_VERIFYPEER", curl_easy_strerror(res));
-                }
-                if ((res = curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2)) != 0) {
-                        throw NetworkException("Failed set CURLOPT_SSL_VERIFYHOST", curl_easy_strerror(res));
-                }
+                chandle->SetOption(CURLOPT_SSL_VERIFYPEER, 2L);
+                chandle->SetOption(CURLOPT_SSL_VERIFYHOST, 2L);
 #endif
         }
 
         TargetHttp::~TargetHttp()
         {
-                if (curl) {
-                        curl_easy_cleanup(curl);
-                }
-                if (--init == 0) {
-                        curl_global_cleanup();
-                }
-                if (headers) {
-                        curl_slist_free_all(headers);
-                }
+                delete headers;
+                delete chandle;
         }
 
         void TargetHttp::Append(const Record & record) const
         {
                 const std::string & message = format.GetMessage(record);
 
-                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers); res != 0) {
-                        throw NetworkException("Failed set headers", curl_easy_strerror(res));
-                }
-                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, message.c_str()); res != 0) {
-                        throw NetworkException("Failed set CURLOPT_POSTFIELDS", curl_easy_strerror(res));
-                }
-                if (CURLcode res = curl_easy_perform(curl); res != 0) {
-                        throw NetworkException("Failed send request", curl_easy_strerror(res));
-                }
+                chandle->SetOption(CURLOPT_HTTPHEADER, headers->GetList());
+                chandle->SetOption(CURLOPT_POSTFIELDS, message);
+                chandle->Perform();
         }
 
         void TargetHttp::SetOption(CURLoption option, long value) const
         {
-                if (CURLcode res = curl_easy_setopt(curl, option, value); res != 0) {
-                        throw NetworkException("Failed set option", curl_easy_strerror(res));
-                }
+                chandle->SetOption(option, value);
         }
 
         void TargetHttp::SetOption(CURLoption option, const std::string & value) const
         {
-                if (CURLcode res = curl_easy_setopt(curl, option, value.c_str()); res != 0) {
-                        throw NetworkException("Failed set option", curl_easy_strerror(res));
-                }
+                chandle->SetOption(option, value);
         }
 
         void TargetHttp::AddHeader(const char * name, const char * value)
@@ -109,23 +74,13 @@ namespace Citrus::Logging {
 
         void TargetHttp::AddHeader(const std::string & header)
         {
-                curl_slist * temp = curl_slist_append(headers, header.c_str());
-
-                if (!temp) {
-                        throw NetworkException("Failed set HTTP header", header.c_str());
-                }
-
-                headers = temp;
+                headers->Append(header.c_str());
         }
 
         void TargetHttp::SetLogin(const char * user, const char * pass) const
         {
-                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_USERNAME, user); res != 0) {
-                        throw NetworkException("Failed set login username", curl_easy_strerror(res));
-                }
-                if (CURLcode res = curl_easy_setopt(curl, CURLOPT_PASSWORD, pass); res != 0) {
-                        throw NetworkException("Failed set login password", curl_easy_strerror(res));
-                }
+                chandle->SetOption(CURLOPT_USERNAME, user);
+                chandle->SetOption(CURLOPT_PASSWORD, pass);
         }
 
 } // namespace Citrus::Logging
