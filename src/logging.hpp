@@ -313,12 +313,12 @@ namespace Citrus::Logging {
                 const std::function<std::string(const Record & record, const Format * format)> & formatter;
         };
 
-        template <class Format>
+        template <class Format, typename... Params>
         struct RecordFormat
         {
-                static Format & Object()
+                static Format & Object(Params... args)
                 {
-                        static Format format;
+                        static Format format(args...);
                         return format;
                 }
         };
@@ -375,8 +375,6 @@ namespace Citrus::Logging {
             private:
                 CurlHandle * chandle;
                 CurlStringList * headers;
-                // CURL * curl;
-                // curl_slist * headers;
         };
 #endif
 
