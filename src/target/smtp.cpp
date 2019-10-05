@@ -24,7 +24,6 @@
 #include <sstream>
 
 #ifdef HAVE_LIBCURL
-#include <curl/curl.h>
 
 namespace {
 
@@ -46,42 +45,42 @@ namespace Citrus::Logging {
         TargetSmtp::TargetSmtp(const std::string & url, const Format & format)
             : Target(format)
         {
-                handle = new CurlHandle(url);
+                chandle = new CurlHandle(url);
         }
 
         TargetSmtp::TargetSmtp(const std::string & url, const Message & message, const Format & format)
             : Target(format), message(message)
         {
-                handle = new CurlHandle(url);
+                chandle = new CurlHandle(url);
         }
 
         TargetSmtp::~TargetSmtp()
         {
-                delete handle;
+                delete chandle;
         }
 
         void TargetSmtp::Append(const Record & record) const
         {
                 const std::string & text = format.GetMessage(record);
 
-                Sender sender(handle);
+                Sender sender(chandle);
                 sender.Submit(message, text);
         }
 
         void TargetSmtp::SetOption(CURLoption option, long value) const
         {
-                handle->SetOption(option, value);
+                chandle->SetOption(option, value);
         }
 
         void TargetSmtp::SetOption(CURLoption option, const std::string & value) const
         {
-                handle->SetOption(option, value);
+                chandle->SetOption(option, value);
         }
 
         void TargetSmtp::SetLogin(const char * user, const char * pass) const
         {
-                handle->SetOption(CURLOPT_USERNAME, user);
-                handle->SetOption(CURLOPT_PASSWORD, pass);
+                chandle->SetOption(CURLOPT_USERNAME, user);
+                chandle->SetOption(CURLOPT_PASSWORD, pass);
         }
 
         TargetSmtp::Message * TargetSmtp::GetMessage()
@@ -215,8 +214,8 @@ namespace Citrus::Logging {
                 return result.substr(0, result.length() - 2);
         }
 
-        TargetSmtp::Sender::Sender(const CurlHandle * handle)
-            : handle(handle)
+        TargetSmtp::Sender::Sender(const CurlHandle * chandle)
+            : chandle(chandle)
         {
         }
 
@@ -234,14 +233,14 @@ namespace Citrus::Logging {
                         recipients.Append(recipient.addr);
                 }
 
-                handle->SetOption(CURLOPT_MAIL_FROM, message.sender.addr);
-                handle->SetOption(CURLOPT_MAIL_RCPT, recipients);
+                chandle->SetOption(CURLOPT_MAIL_FROM, message.sender.addr);
+                chandle->SetOption(CURLOPT_MAIL_RCPT, recipients);
 
-                handle->SetOption(CURLOPT_READFUNCTION, Upload);
-                handle->SetOption(CURLOPT_READDATA, &data);
-                handle->SetOption(CURLOPT_UPLOAD, 1L);
+                chandle->SetOption(CURLOPT_READFUNCTION, Upload);
+                chandle->SetOption(CURLOPT_READDATA, &data);
+                chandle->SetOption(CURLOPT_UPLOAD, 1L);
 
-                handle->Perform();
+                chandle->Perform();
         }
 
         size_t TargetSmtp::Sender::Upload(char * buffer, size_t size, size_t nitems, void * userdata)
