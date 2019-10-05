@@ -59,10 +59,32 @@ static void TestTarget()
         PrintTarget(target);
 }
 
+static void TestPrefix()
+{
+        //
+        // Use prefix message formatting in upper case.
+        //
+
+        using Citrus::Logging::FormatPrefix;
+        using Mapping = FormatPrefix::Mapping;
+
+        MailMessage message;
+
+        message.SetSender("root@localhost", "Administrator");
+        message.AddRecipient("andlov@home.qnet", "Anders Lövgren");
+        message.SetSubject("SMTP target test");
+
+        TargetSmtp target("smtp://smtp.unix.qnet", message, RecordFormat<FormatPrefix, Mapping>::Object(Mapping::UpperCase));
+        target.SetOption(CURLOPT_VERBOSE, 1);
+
+        PrintTarget(target);
+}
+
 int main()
 {
         TestFormat();
         TestTarget();
+        TestPrefix();
 
         return 0;
 }
