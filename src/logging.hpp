@@ -34,7 +34,9 @@
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
+
         class CurlHandle;
+        class CurlStringList;
 
         class InvalidArgumentException : public std::invalid_argument
         {
@@ -371,8 +373,10 @@ namespace Citrus::Logging {
                 void SetLogin(const char * user, const char * pass) const;
 
             private:
-                CURL * curl;
-                curl_slist * headers;
+                CurlHandle * chandle;
+                CurlStringList * headers;
+                // CURL * curl;
+                // curl_slist * headers;
         };
 #endif
 
@@ -449,7 +453,7 @@ namespace Citrus::Logging {
 
                     private:
                         static size_t Upload(char * buffer, size_t size, size_t nitems, void * userdata);
-                        const CurlHandle * handle;
+                        const CurlHandle * chandle;
                 };
 
                 TargetSmtp(const std::string & url, const Format & format = RecordFormat<FormatXml>::Object());
@@ -466,7 +470,7 @@ namespace Citrus::Logging {
                 Message * GetMessage();
 
             private:
-                CurlHandle * handle;
+                CurlHandle * chandle;
                 Message message;
         };
 #endif
