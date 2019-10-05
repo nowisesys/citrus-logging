@@ -22,6 +22,8 @@
 #include "curl.hpp"
 #include "logging.hpp"
 
+#include <curl/curl.h>
+
 namespace {
 
         static int init;
@@ -62,6 +64,13 @@ namespace Citrus::Logging {
         }
 
         void CurlHandle::SetOption(CURLoption option, long value) const
+        {
+                if (CURLcode res = curl_easy_setopt(curl, option, value); res != 0) {
+                        throw NetworkException("Failed set option", curl_easy_strerror(res));
+                }
+        }
+
+        void CurlHandle::SetOption(CURLoption option, const char * value) const
         {
                 if (CURLcode res = curl_easy_setopt(curl, option, value); res != 0) {
                         throw NetworkException("Failed set option", curl_easy_strerror(res));

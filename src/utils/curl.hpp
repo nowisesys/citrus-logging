@@ -44,6 +44,7 @@ namespace Citrus::Logging {
                 }
 
                 void SetOption(CURLoption option, long value) const;
+                void SetOption(CURLoption option, const char * value) const;
                 void SetOption(CURLoption option, const std::string & value) const;
                 void SetOption(CURLoption option, Callback callback) const;
                 void SetOption(CURLoption option, void * object) const;
@@ -63,7 +64,12 @@ namespace Citrus::Logging {
                 CurlStringList(const std::vector<const char *> & values);
                 ~CurlStringList();
 
-                operator curl_slist *()
+                void * GetList()
+                {
+                        return list;
+                }
+
+                operator void *()
                 {
                         return list;
                 }
