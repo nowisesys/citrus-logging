@@ -34,6 +34,7 @@
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
+        class CurlHandle;
 
         class InvalidArgumentException : public std::invalid_argument
         {
@@ -346,7 +347,7 @@ namespace Citrus::Logging {
             public:
                 TargetSyslog(const char * ident, const Format & format);
                 TargetSyslog(const char * ident, int option = LOG_CONS | LOG_PID, int facility = LOG_DAEMON, const Format & format = RecordFormat<FormatZero>::Object());
-                virtual ~TargetSyslog();
+                ~TargetSyslog();
 
                 void Append(const Record & record) const override;
         };
@@ -357,7 +358,7 @@ namespace Citrus::Logging {
         {
             public:
                 TargetHttp(const std::string & url, const Format & format = RecordFormat<FormatJson>::Object());
-                virtual ~TargetHttp();
+                ~TargetHttp();
 
                 void Append(const Record & record) const override;
 
@@ -372,6 +373,101 @@ namespace Citrus::Logging {
             private:
                 CURL * curl;
                 curl_slist * headers;
+        };
+#endif
+
+#if defined(HAVE_LIBCURL) && defined(LIBCURL_PROTOCOL_SMTP)
+        class TargetSmtp : public Target
+        {
+            public:
+                struct Address
+                {
+                        Address() = default;
+                        Address(const Address &) = default;
+                        Address(const std::string & addr, const std::string & name)
+                            : addr(addr), name(name) {}
+
+                        operator std::string() const
+                        {
+                                return name + " <" + addr + ">";
+                        }
+
+                        std::string addr;
+                        std::string name;
+                };
+
+                class Sender;
+                class Message
+                {
+                        friend class Sender;
+
+                    public:
+                        explicit Message() = default;
+                        explicit Message(const Message &) = default;
+
+                        Message(const Address & sender, const Address & recipient, const std::string & subject);
+
+                        void SetSubject(const std::string & subject);
+                        void SetBodyText(const std::string & text);
+
+                        void SetSender(const Address & sender);
+                        void SetSender(const std::string & addr, const std::string & name = "");
+
+                        void AddRecipient(const Address & recipient);
+                        void AddRecipient(const std::string & addr, const std::string & name = "");
+
+                        void SetRecipients(const Address & recipient);                               // Replace all
+                        void SetRecipients(const std::string & addr, const std::string & name = ""); // Replace all
+                        void SetRecipients(const std::vector<Address> & recipients);                 // Replace all
+
+                        void AddHeader(const char * name, const char * value);
+                        void AddHeader(const std::string & value);
+
+                        std::string GetFormatted(const std::string & body) const;
+                        std::string GetFormatted() const;
+                        std::string GetMessageID() const;
+
+                    private:
+                        std::string GetDomain() const;
+                        std::string GetNextUuid() const;
+
+                        std::string GetCopyReceivers() const;
+
+                        std::string subject;
+                        std::string body;
+                        Address sender;
+                        std::vector<Address> recipients;
+                        std::vector<std::string> headers;
+                };
+
+                class Sender
+                {
+                    public:
+                        Sender(const CurlHandle * handle);
+                        void Submit(const Message & message) const;
+                        void Submit(const Message & message, const std::string & text) const;
+
+                    private:
+                        static size_t Upload(char * buffer, size_t size, size_t nitems, void * userdata);
+                        const CurlHandle * handle;
+                };
+
+                TargetSmtp(const std::string & url, const Format & format = RecordFormat<FormatXml>::Object());
+                TargetSmtp(const std::string & url, const Message & message, const Format & format = RecordFormat<FormatXml>::Object());
+                ~TargetSmtp();
+
+                void Append(const Record & record) const override;
+
+                void SetOption(CURLoption option, long value) const;
+                void SetOption(CURLoption option, const std::string & value) const;
+
+                void SetLogin(const char * user, const char * pass) const;
+
+                Message * GetMessage();
+
+            private:
+                CurlHandle * handle;
+                Message message;
         };
 #endif
 

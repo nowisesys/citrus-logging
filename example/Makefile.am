@@ -9,6 +9,7 @@ noinst_PROGRAMS = \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
     target-file target-stream target-syslog target-http \
+    target-smtp \
     utils-uuid utils-escape
 
 logger_SOURCES = logger.cpp
@@ -67,6 +68,9 @@ target_syslog_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_http_SOURCES = target-http.cpp
 target_http_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+target_smtp_SOURCES = target-smtp.cpp
+target_smtp_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 utils_uuid_SOURCES = utils-uuid.cpp
 utils_uuid_LDADD = ../src/libcitrus-logging.la @UUID_LIBS@
