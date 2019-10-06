@@ -22,6 +22,7 @@ int main()
 
         TargetHttp target("http://localhost/http.php");
         target.AddHeader("Content-Type: application/json");
+        target.AddHeader("X-Requested-With: XMLHttpRequest");
         target.AddHeader("X-Sender", "Citrus Logging");
         target.SetOption(CURLOPT_VERBOSE, 1);
         target.SetLogin("token123", "secret");
