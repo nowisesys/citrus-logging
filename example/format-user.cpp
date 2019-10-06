@@ -29,5 +29,9 @@ int main()
                 return record.GetDateTime().GetString() + ": " + record.GetMessage() + " <" + std::to_string(record.GetProcess()) + "> <" + record.GetSeverity() + ">\n";
         }));
 
+        PrintFormat(FormatUser([](const Record & record) -> std::string {
+                return record.GetDateTime().GetString(DateTime::Format::ISO8601) + ": " + record.GetMessage() + "\n";
+        }));
+
         return 0;
 }
