@@ -22,10 +22,6 @@
 
 #ifdef HAVE_LIBCURL
 
-namespace {
-        static int init;
-}
-
 namespace Citrus::Logging {
 
         TargetHttp::TargetHttp(const std::string & url, const Format & format)

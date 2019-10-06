@@ -26,7 +26,6 @@ namespace {
         using Format = Citrus::Logging::Format;
 
         std::string GetMessage(const Record & record,
-                               const Format * format,
                                bool attrib,
                                const char * indent = "\t",
                                const char * newline = "\n")
@@ -41,7 +40,7 @@ namespace {
                     << record.GetDateTime().GetString() << "</datetime>" << newline
 
                     << indent << "<priority>"
-                    << record.GetPriority(format)
+                    << record.GetSeverity()
                     << "</priority>" << newline
 
                     << indent << "<identity>"
@@ -62,7 +61,6 @@ namespace {
         }
 
         std::string GetMessage(const Record & record,
-                               const Format * format,
                                const char * indent = "\t",
                                const char * newline = "\n")
         {
@@ -83,7 +81,7 @@ namespace {
                     << indent << "</datetime>" << newline
 
                     << indent << "<priority>"
-                    << record.GetPriority(format)
+                    << record.GetSeverity()
                     << "</priority>" << newline
 
                     << indent << "<identity>"
@@ -113,13 +111,13 @@ namespace Citrus::Logging {
         std::string FormatXml::GetMessage(const Record & record) const
         {
                 if (pretty && attrib) {
-                        return ::GetMessage(record, this, true);
+                        return ::GetMessage(record, true);
                 } else if (attrib) {
-                        return ::GetMessage(record, this, true, "", "");
+                        return ::GetMessage(record, true, "", "");
                 } else if (pretty) {
-                        return ::GetMessage(record, this);
+                        return ::GetMessage(record);
                 } else {
-                        return ::GetMessage(record, this, "", "");
+                        return ::GetMessage(record, "", "");
                 }
         }
 

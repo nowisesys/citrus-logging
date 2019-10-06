@@ -17,16 +17,16 @@
 
 int main()
 {
-        PrintFormat(FormatUser([](const Record & record, const Format * format) -> std::string {
+        PrintFormat(FormatUser([](const Record & record) -> std::string {
                 return record.GetMessage() + "\n";
         }));
 
-        PrintFormat(FormatUser([](const Record & record, const Format * format) -> std::string {
+        PrintFormat(FormatUser([](const Record & record) -> std::string {
                 return record.GetDateTime().GetString() + ": " + record.GetMessage() + " <" + std::to_string(record.GetProcess()) + ">\n";
         }));
-        
-        PrintFormat(FormatUser([](const Record & record, const Format * format) -> std::string {
-                return record.GetDateTime().GetString() + ": " + record.GetMessage() + " <" + std::to_string(record.GetProcess()) + "> <" + record.GetPriority(format) + ">\n";
+
+        PrintFormat(FormatUser([](const Record & record) -> std::string {
+                return record.GetDateTime().GetString() + ": " + record.GetMessage() + " <" + std::to_string(record.GetProcess()) + "> <" + record.GetSeverity() + ">\n";
         }));
 
         return 0;

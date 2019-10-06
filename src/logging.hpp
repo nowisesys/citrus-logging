@@ -130,7 +130,7 @@ namespace Citrus::Logging {
                 void SetMessage(const std::string & message);
 
                 Level GetPriority() const;
-                std::string GetPriority(const Format * format) const;
+                std::string GetSeverity() const; // Get priority as string
                 const std::string & GetIdentity() const;
                 const std::string & GetMessage() const;
                 int GetProcess() const;
@@ -150,7 +150,7 @@ namespace Citrus::Logging {
         {
             public:
                 virtual std::string GetMessage(const Record & record) const = 0;
-                static std::string GetPriority(Level level);
+                static std::string GetSeverity(Level level);
         };
 
         class Target
@@ -307,11 +307,11 @@ namespace Citrus::Logging {
         class FormatUser : public Format
         {
             public:
-                FormatUser(const std::function<std::string(const Record & record, const Format * format)> & formatter);
+                FormatUser(const std::function<std::string(const Record & record)> & formatter);
                 std::string GetMessage(const Record & record) const override;
 
             private:
-                const std::function<std::string(const Record & record, const Format * format)> & formatter;
+                const std::function<std::string(const Record & record)> & formatter;
         };
 
         class FormatColumn : public Format
@@ -457,9 +457,9 @@ namespace Citrus::Logging {
 
                         std::string GetCopyReceivers() const;
 
+                        Address sender;
                         std::string subject;
                         std::string body;
-                        Address sender;
                         std::vector<Address> recipients;
                         std::vector<std::string> headers;
                 };

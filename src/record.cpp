@@ -67,9 +67,9 @@ namespace Citrus::Logging {
                 this->message = message;
         }
 
-        std::string Record::GetPriority(const Format * format) const
+        std::string Record::GetSeverity() const
         {
-                return format->GetPriority(priority);
+                return Format::GetSeverity(priority);
         }
 
         Level Record::GetPriority() const

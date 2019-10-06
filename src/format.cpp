@@ -22,7 +22,7 @@
 
 namespace Citrus::Logging {
 
-        std::string Format::GetPriority(Level level)
+        std::string Format::GetSeverity(Level level)
         {
                 static std::map<Level, const char *> mapper = {
                     {Level::Emergent, "Emergent"},

@@ -21,12 +21,12 @@
 
 namespace Citrus::Logging {
 
-        FormatUser::FormatUser(const std::function<std::string(const Record & record, const Format * format)> & formatter)
+        FormatUser::FormatUser(const std::function<std::string(const Record & record)> & formatter)
             : formatter(formatter) {}
 
         std::string FormatUser::GetMessage(const Record & record) const
         {
-                return formatter(record, this);
+                return formatter(record);
         }
 
 } // namespace Citrus::Logging

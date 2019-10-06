@@ -24,23 +24,23 @@ namespace {
         using Level = Citrus::Logging::Level;
         using Format = Citrus::Logging::Format;
 
-        void SetDefaultMapping(const Format * format, std::map<Level, std::string> & map)
+        void SetDefaultMapping(std::map<Level, std::string> & map)
         {
                 map = {
-                    {Level::Debug, format->GetPriority(Level::Debug)},
-                    {Level::Information, format->GetPriority(Level::Information)},
-                    {Level::Notice, format->GetPriority(Level::Notice)},
-                    {Level::Warning, format->GetPriority(Level::Warning)},
-                    {Level::Error, format->GetPriority(Level::Error)},
-                    {Level::Alert, format->GetPriority(Level::Alert)},
-                    {Level::Critical, format->GetPriority(Level::Critical)},
-                    {Level::Emergent, format->GetPriority(Level::Emergent)},
+                    {Level::Debug, Format::GetSeverity(Level::Debug)},
+                    {Level::Information, Format::GetSeverity(Level::Information)},
+                    {Level::Notice, Format::GetSeverity(Level::Notice)},
+                    {Level::Warning, Format::GetSeverity(Level::Warning)},
+                    {Level::Error, Format::GetSeverity(Level::Error)},
+                    {Level::Alert, Format::GetSeverity(Level::Alert)},
+                    {Level::Critical, Format::GetSeverity(Level::Critical)},
+                    {Level::Emergent, Format::GetSeverity(Level::Emergent)},
                 };
         }
 
-        void SetLowerCaseMapping(const Format * format, std::map<Level, std::string> & map)
+        void SetLowerCaseMapping(std::map<Level, std::string> & map)
         {
-                SetDefaultMapping(format, map);
+                SetDefaultMapping(map);
 
                 for (auto & entry : map) {
                         for (auto & c : entry.second) {
@@ -49,9 +49,9 @@ namespace {
                 }
         }
 
-        void SetUpperCaseMapping(const Format * format, std::map<Level, std::string> & map)
+        void SetUpperCaseMapping(std::map<Level, std::string> & map)
         {
-                SetDefaultMapping(format, map);
+                SetDefaultMapping(map);
 
                 for (auto & entry : map) {
                         for (auto & c : entry.second) {
@@ -60,7 +60,7 @@ namespace {
                 }
         }
 
-        void SetShortTagMapping(const Format * format, std::map<Level, std::string> & map)
+        void SetShortTagMapping(std::map<Level, std::string> & map)
         {
                 map = {
                     {Level::Debug, "[d]"},
@@ -86,17 +86,17 @@ namespace Citrus::Logging {
         {
                 switch (select) {
                 case Mapping::Default:
-                        SetDefaultMapping(this, mapping);
+                        SetDefaultMapping(mapping);
                         break;
                 case Mapping::LowerCase:
-                        SetLowerCaseMapping(this, mapping);
+                        SetLowerCaseMapping(mapping);
                         break;
                 case Mapping::UpperCase:
-                        SetUpperCaseMapping(this, mapping);
+                        SetUpperCaseMapping(mapping);
                         break;
 
                 case Mapping::ShortTag:
-                        SetShortTagMapping(this, mapping);
+                        SetShortTagMapping(mapping);
                         break;
                 }
         }

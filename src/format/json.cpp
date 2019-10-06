@@ -26,7 +26,6 @@ namespace {
         using Format = Citrus::Logging::Format;
 
         std::string GetMessage(const Record & record,
-                               const Format * format,
                                const char * resep = "\n",
                                const char * sline = "\t",
                                const char * eline = "\n",
@@ -43,7 +42,7 @@ namespace {
 
                     << sline
                     << quote << "priority" << quote << ':'
-                    << quote << record.GetPriority(format) << quote << ','
+                    << quote << record.GetSeverity() << quote << ','
                     << eline
 
                     << sline
@@ -77,9 +76,9 @@ namespace Citrus::Logging {
         std::string FormatJson::GetMessage(const Record & record) const
         {
                 if (pretty) {
-                        return ::GetMessage(record, this, "");
+                        return ::GetMessage(record, "");
                 } else {
-                        return ::GetMessage(record, this, "\n", "", "");
+                        return ::GetMessage(record, "\n", "", "");
                 }
         }
 

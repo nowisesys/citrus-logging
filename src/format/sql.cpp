@@ -69,7 +69,7 @@ namespace Citrus::Logging {
                     << columns.find("message")->second << ") "
                     << "VALUES("
                     << GetEscaped(record.GetDateTime().GetString(), enclose, escape) << ','
-                    << GetEscaped(record.GetPriority(this), enclose, escape) << ','
+                    << GetEscaped(record.GetSeverity(), enclose, escape) << ','
                     << GetEscaped(record.GetIdentity(), enclose, escape) << ','
                     << GetEscaped(record.GetProcess(), enclose, escape) << ','
                     << GetEscaped(record.GetMessage(), enclose, escape)

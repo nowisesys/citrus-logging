@@ -109,7 +109,7 @@ namespace Citrus::Logging {
                                 } else if (args[index].type() == typeid(std::string)) {
                                         iss << std::any_cast<std::string>(args[index]);
                                 } else if (args[index].type() == typeid(Level)) {
-                                        iss << Format::GetPriority(std::any_cast<Level>(args[index]));
+                                        iss << Format::GetSeverity(std::any_cast<Level>(args[index]));
                                 } else {
                                         throw InvalidArgumentException("Unknown conversion for specifier", holder.next);
                                 }

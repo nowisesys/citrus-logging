@@ -30,7 +30,7 @@ namespace Citrus::Logging {
                 std::ostringstream oss;
 
                 oss << record.GetDateTime().GetString() << field
-                    << record.GetPriority(this) << field
+                    << record.GetSeverity() << field
                     << record.GetIdentity() << field
                     << record.GetProcess() << field
                     << record.GetMessage() << lines;

@@ -33,7 +33,7 @@ namespace Citrus::Logging {
                 std::ostringstream oss;
 
                 oss << GetEscaped(record.GetDateTime().GetString(), enclose, escape) << delimit
-                    << GetEscaped(record.GetPriority(this), enclose, escape) << delimit
+                    << GetEscaped(record.GetSeverity(), enclose, escape) << delimit
                     << GetEscaped(record.GetIdentity(), enclose, escape) << delimit
                     << GetEscaped(record.GetProcess(), enclose, escape) << delimit
                     << GetEscaped(record.GetMessage(), enclose, escape) << '\n';
