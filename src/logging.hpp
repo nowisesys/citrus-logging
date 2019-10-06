@@ -512,6 +512,11 @@ namespace Citrus::Logging {
         };
 #endif
 
+        class TargetDiscard : public Target
+        {
+                void Append(const Record & record) const override {}
+        };
+
 } // namespace Citrus::Logging
 
 #endif // LIBCITRUS_LOGGING_HPP
