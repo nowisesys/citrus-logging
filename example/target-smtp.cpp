@@ -80,11 +80,38 @@ static void TestPrefix()
         PrintTarget(target);
 }
 
+static void TestString()
+{
+        MailMessage message;
+
+        message.SetSender("root@localhost", "Administrator");
+        message.AddRecipient("andlov@home.qnet", "Anders Lövgren");
+        message.SetSubject("SMTP target test");
+
+        FormatString formatter(
+            "\
+Hello!\n\
+\n\
+%3 on %1\n\
+\n\
+Identity: %2\n\
+Priority: %4\n\
+Process: %5\n\
+\n\
+Cheers ;-)");
+
+        TargetSmtp target("smtp://smtp.unix.qnet", message, formatter);
+        target.SetOption(CURLOPT_VERBOSE, 1);
+
+        PrintTarget(target);
+}
+
 int main()
 {
         TestFormat();
         TestTarget();
         TestPrefix();
+        TestString();
 
         return 0;
 }

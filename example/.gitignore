@@ -15,6 +15,7 @@ format-user
 format-xml
 format-zero
 format-column
+format-string
 target-file
 target-stream
 target-syslog

@@ -16,7 +16,8 @@ libcitrus_logging_la_SOURCES = logging.hpp logging.cpp \
     target/http.cpp target/smtp.cpp \
     format/text.cpp format/json.cpp format/csv.cpp \
     format/sql.cpp  format/zero.cpp format/prefix.cpp \
-    format/user.cpp format/xml.cpp format/column.cpp
+    format/user.cpp format/xml.cpp format/column.cpp \
+    format/string.cpp
 
 libcitrus_logging_la_LDFLAGS  = -version-info 1:0:0 @LIBCURL@ @UUID_LIBS@
 libcitrus_logging_la_CXXFLAGS = -DLIBCITRUS_EXPORTS=1 @LIBCURL_CPPFLAGS@ @UUID_CFLAGS@

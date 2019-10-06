@@ -150,7 +150,7 @@ namespace Citrus::Logging {
         {
             public:
                 virtual std::string GetMessage(const Record & record) const = 0;
-                virtual std::string GetPriority(Level level) const;
+                static std::string GetPriority(Level level);
         };
 
         class Target
@@ -168,6 +168,7 @@ namespace Citrus::Logging {
         {
             public:
                 static std::string Format(const char * format, const Arguments & args = Arguments());
+                static std::string Format(const std::string & format, const Arguments & args = Arguments());
         };
 
         class Sender
@@ -322,6 +323,16 @@ namespace Citrus::Logging {
             private:
                 char field;
                 char lines;
+        };
+
+        class FormatString : public Format
+        {
+            public:
+                FormatString(const std::string & format); // %1 -> datetime, %2 -> identity, %3 -> message, %4 -> priority, %5 -> process
+                std::string GetMessage(const Record & record) const override;
+
+            private:
+                std::string format;
         };
 
         template <class Format, typename... Params>
