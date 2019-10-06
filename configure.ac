@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libcitrus-logging], [1.0.0], [bugs@nowise.se])
+AC_INIT([libcitrus-logging], [1.0.1], [bugs@nowise.se])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIRS([m4])
@@ -24,7 +24,7 @@ LT_INIT
 
 # Checks for libraries.
 LIBCURL_CHECK_CONFIG
-PKG_CHECK_MODULES([UUID], [uuid >= 2], AC_DEFINE([HAVE_LIBUUID]))
+PKG_CHECK_MODULES([UUID], [uuid >= 2], AC_DEFINE([HAVE_LIBUUID], [], [Define to 1 if you have a functional uuid library.]))
 
 # Checks for header files.
 AC_CHECK_HEADERS([string.h syslog.h unistd.h])
