@@ -151,6 +151,7 @@ namespace Citrus::Logging {
                 const std::string & GetMessage() const;
                 int GetProcess() const;
                 const DateTime & GetDateTime() const;
+                const Hostname & GetHostname() const;
 
             private:
                 void SetProcess();

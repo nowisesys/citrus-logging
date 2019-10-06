@@ -97,6 +97,11 @@ namespace Citrus::Logging {
                 return stamp;
         }
 
+        const Hostname & Record::GetHostname() const
+        {
+                return Hostname::GetInstance();
+        }
+
         void Record::SetProcess()
         {
                 pid = getpid();
