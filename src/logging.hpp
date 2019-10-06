@@ -108,6 +108,7 @@ namespace Citrus::Logging {
                 const TimePoint & GetTimePoint() const;
 
                 std::string GetString() const;
+                std::string GetString(const char * format) const;
 
                 static DateTime Now(const char * format = Format::Human);
 

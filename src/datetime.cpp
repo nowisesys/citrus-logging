@@ -88,6 +88,11 @@ namespace Citrus::Logging {
 
         std::string DateTime::GetString() const
         {
+                return GetString(format);
+        }
+
+        std::string DateTime::GetString(const char * format) const
+        {
                 std::ostringstream oss;
                 std::time_t timed = TimeClock::to_time_t(stamp);
 
