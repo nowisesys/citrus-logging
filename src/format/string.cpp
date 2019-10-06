@@ -32,6 +32,7 @@ namespace Citrus::Logging {
                 Arguments arguments;
 
                 arguments.push_back(record.GetDateTime().GetString());
+                arguments.push_back(record.GetHostname().GetQualified());
                 arguments.push_back(record.GetIdentity());
                 arguments.push_back(record.GetMessage());
                 arguments.push_back(record.GetPriority());

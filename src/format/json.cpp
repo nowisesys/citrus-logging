@@ -41,6 +41,11 @@ namespace {
                     << eline
 
                     << sline
+                    << quote << "hostname" << quote << ':'
+                    << quote << record.GetHostname().GetQualified() << quote << ','
+                    << eline
+
+                    << sline
                     << quote << "priority" << quote << ':'
                     << quote << record.GetSeverity() << quote << ','
                     << eline

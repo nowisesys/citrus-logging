@@ -39,6 +39,11 @@ namespace {
                     << "\" format=\"" << record.GetDateTime().GetFormat() << "\">"
                     << record.GetDateTime().GetString() << "</datetime>" << newline
 
+                    << indent << "<hostname short=\""
+                    << record.GetHostname().GetShort()
+                    << "\" domain=\"" << record.GetHostname().GetDomain() << "\">"
+                    << record.GetHostname().GetQualified() << "</hostname>" << newline
+
                     << indent << "<priority>"
                     << record.GetSeverity()
                     << "</priority>" << newline
@@ -79,6 +84,18 @@ namespace {
                     << record.GetDateTime().GetString()
                     << "</stamp>" << newline
                     << indent << "</datetime>" << newline
+
+                    << indent << "<hostname>" << newline
+                    << indent << indent << "<qualified>"
+                    << record.GetHostname().GetQualified()
+                    << "</qualified>" << newline
+                    << indent << indent << "<short>"
+                    << record.GetHostname().GetShort()
+                    << "</short>" << newline
+                    << indent << indent << "<domain>"
+                    << record.GetHostname().GetDomain()
+                    << "</domain>" << newline
+                    << indent << "</hostname>" << newline
 
                     << indent << "<priority>"
                     << record.GetSeverity()

@@ -20,7 +20,7 @@ int main()
         //
         // See logging.hpp for positional specifiers.
         //
-        PrintFormat(FormatString("[%2][%5] %1 <%4>: %3\n"));
+        PrintFormat(FormatString("[%3][%2][%6] %1 <%5>: %4\n"));
 
         return 0;
 }

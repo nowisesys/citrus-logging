@@ -30,6 +30,7 @@ namespace Citrus::Logging {
                 std::ostringstream oss;
 
                 oss << "Datetime" << field << " " << record.GetDateTime().GetString() << lines
+                    << "Hostname" << field << " " << record.GetHostname().GetQualified() << lines
                     << "Priority" << field << " " << record.GetSeverity() << lines
                     << "Identity" << field << " " << record.GetIdentity() << lines
                     << "Process" << field << " " << record.GetProcess() << lines

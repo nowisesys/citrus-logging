@@ -345,7 +345,7 @@ namespace Citrus::Logging {
         class FormatString : public Format
         {
             public:
-                FormatString(const std::string & format); // %1 -> datetime, %2 -> identity, %3 -> message, %4 -> priority, %5 -> process
+                FormatString(const std::string & format); // %1 -> datetime, %2 -> hostname, %3 -> identity, %4 -> message, %5 -> priority, %6 -> process
                 std::string GetMessage(const Record & record) const override;
 
             private:

@@ -17,8 +17,8 @@
 #include "config.h"
 #endif
 
-#include "utils/escape.hpp"
 #include "logging.hpp"
+#include "utils/escape.hpp"
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -30,6 +30,7 @@ namespace Citrus::Logging {
         {
                 columns = {
                     {"datetime", "datetime"},
+                    {"hostname", "hostname"},
                     {"priority", "priority"},
                     {"identity", "identity"},
                     {"process", "process"},
@@ -42,6 +43,7 @@ namespace Citrus::Logging {
         {
                 columns = {
                     {"datetime", "datetime"},
+                    {"hostname", "hostname"},
                     {"priority", "priority"},
                     {"identity", "identity"},
                     {"process", "process"},
@@ -63,12 +65,14 @@ namespace Citrus::Logging {
 
                 oss << "INSERT INTO " << table << "("
                     << columns.find("datetime")->second << ","
+                    << columns.find("hostname")->second << ","
                     << columns.find("priority")->second << ","
                     << columns.find("identity")->second << ","
                     << columns.find("process")->second << ","
                     << columns.find("message")->second << ") "
                     << "VALUES("
                     << GetEscaped(record.GetDateTime().GetString(), enclose, escape) << ','
+                    << GetEscaped(record.GetHostname().GetQualified(), enclose, escape) << ','
                     << GetEscaped(record.GetSeverity(), enclose, escape) << ','
                     << GetEscaped(record.GetIdentity(), enclose, escape) << ','
                     << GetEscaped(record.GetProcess(), enclose, escape) << ','

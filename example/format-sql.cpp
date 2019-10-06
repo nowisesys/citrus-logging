@@ -22,10 +22,11 @@ int main()
         PrintFormat(FormatSql("mytable",
                               {
                                   {"datetime", "stamp"},
+                                  {"hostname", "origin"},
                                   {"priority", "severity"},
                                   {"identity", "logger"},
                                   {"process", "pid"},
-                                  {"message", "info"},
+                                  {"message", "text"},
                               }));
 
         return 0;

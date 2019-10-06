@@ -17,8 +17,8 @@
 #include "config.h"
 #endif
 
-#include "utils/escape.hpp"
 #include "logging.hpp"
+#include "utils/escape.hpp"
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -33,6 +33,7 @@ namespace Citrus::Logging {
                 std::ostringstream oss;
 
                 oss << GetEscaped(record.GetDateTime().GetString(), enclose, escape) << delimit
+                    << GetEscaped(record.GetHostname().GetQualified(), enclose, escape) << delimit
                     << GetEscaped(record.GetSeverity(), enclose, escape) << delimit
                     << GetEscaped(record.GetIdentity(), enclose, escape) << delimit
                     << GetEscaped(record.GetProcess(), enclose, escape) << delimit

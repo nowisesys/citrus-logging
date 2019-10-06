@@ -92,11 +92,11 @@ static void TestString()
             "\
 Hello!\n\
 \n\
-%3 on %1\n\
+%4 on %2 at %1\n\
 \n\
-Identity: %2\n\
-Priority: %4\n\
-Process: %5\n\
+Identity: %3\n\
+Priority: %5\n\
+Process: %6\n\
 \n\
 Cheers ;-)");
 
