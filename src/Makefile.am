@@ -9,7 +9,7 @@ otherinclude_HEADERS = logging.hpp
 lib_LTLIBRARIES = libcitrus-logging.la
 libcitrus_logging_la_SOURCES = logging.hpp logging.cpp \
     logger.cpp message.cpp datetime.cpp format.cpp \
-    record.cpp sender.cpp target.cpp \
+    record.cpp sender.cpp target.cpp hostname.cpp \
     utils/escape.cpp utils/escape.hpp utils/curl.hpp utils/curl.cpp \
     utils/uuid.cpp utils/uuid.hpp \
     target/file.cpp target/stream.cpp target/syslog.cpp \

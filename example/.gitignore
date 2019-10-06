@@ -6,6 +6,7 @@ message
 record
 sender
 simple
+hostname
 format-csv
 format-json
 format-prefix

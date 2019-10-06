@@ -117,6 +117,21 @@ namespace Citrus::Logging {
                 TimePoint stamp;
         };
 
+        class Hostname
+        {
+            public:
+                Hostname();
+
+                const std::string GetQualified() const;
+                std::string GetDomain() const;
+                std::string GetShort() const;
+
+                static const Hostname & GetInstance();
+
+            private:
+                std::string hostname;
+        };
+
         class Format;
         class Record
         {

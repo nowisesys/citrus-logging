@@ -27,7 +27,7 @@ LIBCURL_CHECK_CONFIG
 PKG_CHECK_MODULES([UUID], [uuid >= 2], AC_DEFINE([HAVE_LIBUUID], [], [Define to 1 if you have a functional uuid library.]))
 
 # Checks for header files.
-AC_CHECK_HEADERS([string.h syslog.h unistd.h])
+AC_CHECK_HEADERS([netdb.h sys/socket.h string.h syslog.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -35,7 +35,7 @@ AC_C_INLINE
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([putenv])
+AC_CHECK_FUNCS([gethostname putenv strerror])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile

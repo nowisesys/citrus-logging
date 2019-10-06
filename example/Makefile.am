@@ -6,6 +6,7 @@ libsupport_a_SOURCES = support.cpp support.hpp
 
 noinst_PROGRAMS = \
     logger message datetime sender level record derived \
+    hostname \
     format-text format-json format-sql format-csv \
     format-prefix format-zero format-user format-xml \
     format-column format-string \
@@ -33,6 +34,9 @@ record_LDADD = ../src/libcitrus-logging.la
 
 derived_SOURCES = derived.cpp derived.hpp
 derived_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+hostname_SOURCES = hostname.cpp
+hostname_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 format_text_SOURCES = format-text.cpp 
 format_text_LDADD = ../src/libcitrus-logging.la libsupport.a
