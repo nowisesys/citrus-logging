@@ -11,7 +11,7 @@ noinst_PROGRAMS = \
     format-prefix format-zero format-user format-xml \
     format-column format-string \
     target-file target-stream target-syslog target-http \
-    target-smtp target-memory \
+    target-smtp target-memory target-buffer \
     utils-uuid utils-escape \
     memory-growing memory-linear memory-circular
 
@@ -86,6 +86,9 @@ target_smtp_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 target_memory_SOURCES = target-memory.cpp
 target_memory_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+target_buffer_SOURCES = target-buffer.cpp
+target_buffer_LDADD = ../src/libcitrus-logging.la libsupport.a
 
 utils_uuid_SOURCES = utils-uuid.cpp
 utils_uuid_LDADD = ../src/libcitrus-logging.la @UUID_LIBS@

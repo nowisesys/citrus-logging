@@ -37,7 +37,8 @@ namespace Citrus::Logging {
 
         MemoryStrategyGrowing::~MemoryStrategyGrowing()
         {
-                if (last % size != 0) {
+                if ((last % size != 0) ||
+                    (last < buffer.size())) {
                         callback(this); // Has unsynced records
                 }
         }

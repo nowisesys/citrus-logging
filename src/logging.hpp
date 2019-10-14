@@ -524,6 +524,7 @@ namespace Citrus::Logging {
         {
             public:
                 using Callback = std::function<void(const MemoryStrategy *)>;
+                using size_type = std::vector<Record>::size_type;
 
                 TargetMemory(int size = 25);
                 TargetMemory(Callback callback, int size = 25);
@@ -546,10 +547,12 @@ namespace Citrus::Logging {
         class MemoryStrategy
         {
             public:
-                using Callback = std::function<void(const MemoryStrategy *)>;
-                using size_type = std::vector<Record>::size_type;
+                using Callback = TargetMemory::Callback;
+                using size_type = TargetMemory::size_type;
 
                 explicit MemoryStrategy();
+                
+                MemoryStrategy(const MemoryStrategy &) = default;
                 virtual ~MemoryStrategy() = default;
 
                 void OnOverflow(Callback callback);
@@ -625,6 +628,21 @@ namespace Citrus::Logging {
             private:
                 size_type size;
                 size_type curr;
+        };
+
+        class TargetBuffer : public TargetMemory
+        {
+            public:
+                using size_type = TargetMemory::size_type;
+
+                TargetBuffer(const Target & target);
+                TargetBuffer(const Target & target, size_type size);
+                TargetBuffer(const Target & target, MemoryStrategy * strategy);
+
+                void operator()(const MemoryStrategy * strategy);
+
+            private:
+                const Target & target;
         };
 
 } // namespace Citrus::Logging

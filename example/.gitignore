@@ -23,6 +23,7 @@ target-syslog
 target-http
 target-smtp
 target-memory
+target-buffer
 utils-uuid
 utils-escape
 memory-circular
