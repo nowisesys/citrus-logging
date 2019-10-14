@@ -368,6 +368,7 @@ namespace Citrus::Logging {
             public:
                 TargetFile(const char * filename, const Format & format = RecordFormat<FormatText>::Object());
                 void Append(const Record & record) const override;
+                void Append(const std::vector<Record> & records) const;
 
             private:
                 std::string filename;

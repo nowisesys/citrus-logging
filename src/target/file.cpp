@@ -38,4 +38,20 @@ namespace Citrus::Logging {
                 }
         }
 
+        void TargetFile::Append(const std::vector<Record> & records) const
+        {
+                std::ofstream stream(filename, std::ios::app);
+
+                if (!stream) {
+                        throw FileSystemException("Failed open file", filename.c_str());
+                }
+
+                for (const auto & record : records) {
+                        const std::string & message = format.GetMessage(record);
+                        if (!stream.write(message.c_str(), message.size())) {
+                                throw FileSystemException("Failed write file", filename.c_str());
+                        }
+                }
+        }
+
 } // namespace Citrus::Logging
