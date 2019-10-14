@@ -22,7 +22,7 @@
 namespace Citrus::Logging {
 
         MemoryStrategyGrowing::MemoryStrategyGrowing(size_type size)
-            : size(size)
+            : size(size), last(0)
         {
                 if (size <= 0) {
                         throw InvalidArgumentException("The size must be larger or equal to one", std::to_string(size));
@@ -41,7 +41,20 @@ namespace Citrus::Logging {
 
                 if (buffer.size() % size == 0) {
                         callback(this);
+                        last = buffer.size();
                 }
+        }
+
+        std::vector<Record> MemoryStrategyGrowing::GetBuffer() const
+        {
+                return buffer;
+        }
+
+        std::vector<Record> MemoryStrategyGrowing::GetLatest() const
+        {
+                std::vector<Record> result;
+                result.assign(buffer.begin() + last, buffer.end());
+                return std::move(result);
         }
 
 } // namespace Citrus::Logging

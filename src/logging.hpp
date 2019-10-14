@@ -549,7 +549,8 @@ namespace Citrus::Logging {
                 void OnOverflow(Callback callback);
 
                 virtual void Append(const Record & record) = 0;
-                virtual const std::vector<Record> & GetBuffer() const;
+                virtual std::vector<Record> GetBuffer() const = 0;
+                virtual std::vector<Record> GetLatest() const = 0; // Since last overflow
 
             protected:
                 std::vector<Record> buffer;
@@ -559,13 +560,16 @@ namespace Citrus::Logging {
         class MemoryStrategyGrowing : public MemoryStrategy
         {
             public:
-                MemoryStrategyGrowing(size_type size = 100);
+                MemoryStrategyGrowing(size_type size = 25);
                 MemoryStrategyGrowing(Callback callback, size_type size = 25);
 
                 void Append(const Record & record) override;
+                std::vector<Record> GetBuffer() const override;
+                std::vector<Record> GetLatest() const override;
 
             private:
                 size_type size;
+                size_type last;
         };
 
         class MemoryStrategyLinear : public MemoryStrategy
@@ -575,6 +579,8 @@ namespace Citrus::Logging {
                 MemoryStrategyLinear(Callback callback, size_type size = 25);
 
                 void Append(const Record & record) override;
+                std::vector<Record> GetBuffer() const override;
+                std::vector<Record> GetLatest() const override;
 
             private:
                 size_type size;
@@ -587,7 +593,8 @@ namespace Citrus::Logging {
                 MemoryStrategyCircular(Callback callback, size_type size = 25);
 
                 void Append(const Record & record) override;
-                const std::vector<Record> & GetBuffer() const override;
+                std::vector<Record> GetBuffer() const override;
+                std::vector<Record> GetLatest() const override;
 
             private:
                 size_type size;

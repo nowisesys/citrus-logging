@@ -54,7 +54,7 @@ Have a look inside the [example directory](example) for simple programs that dem
 
 ## Targets
 
-The list of targets consist of **file**, **http**, **smtp**, **stream** and **syslog**. Each target class has a default formatter that can be replaced by passing a second argument. In this example, the first **http** target will format messages as JSON, while the second will format as XML.
+The list of targets consist of **File**, **HTTP**, **SMTP**, **I/O Stream**, **Memory** and **UNIX syslog**. Each target class has a default formatter that can be replaced by passing a second argument. In this example, the first **http** target will format messages as JSON, while the second will format as XML.
 
 ```c++
 TargetHttp target1("http://localhost/http.php");
@@ -63,7 +63,7 @@ TargetHttp target2("http://localhost/http.php", RecordFormat<FormatXml>::Object(
 
 ### Custom methods
 
-Some targets provides utility methods. For example, the **http** and **smtp** targets provides wrapper for passing options to libcurl:
+Some targets provides utility methods. For example, the **HTTP** and **SMTP** targets provides wrapper for passing options to libcurl:
 ```c++
 TargetSmtp target("smtp://smtp.unix.qnet", message, formatter);
 target.SetOption(CURLOPT_VERBOSE, 1);
@@ -71,10 +71,10 @@ target.SetOption(CURLOPT_VERBOSE, 1);
 
 ## Formatters
 
-The list of formatters consist of numerous classes, i.e. **json**, **sql**, **csv**, **xml** and most target classes uses sensible default formatters. 
+The list of formatters consist of numerous classes, i.e. **JSON**, **SQL**, **CSV**, **XML** and most target classes uses sensible default formatters. 
 
 ### Customize
-If these don't suite your taste, you can either create your own custom format classes or use the swiss-army knife classes **string** (format specifier) or **user** (lambda callback):
+If these don't suite your taste, you can either create your own custom format classes or use the swiss-army knife classes **String** (format specifier) or **User** (lambda callback):
 
 ```c++
 FormatString format1("[%3][%2][%6] %1 <%5>: %4\n")
@@ -99,7 +99,7 @@ bash$> ./configure
 bash$> make && make install
 ```
 
-Pass --prefix=path to configure or use DESTDIR for make install to install in non-standard locations.
+Pass --prefix=path to configure or use environment variable DESTDIR for installation to non-standard locations.
 
 ## Getting started
 

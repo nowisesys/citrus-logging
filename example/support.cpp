@@ -45,7 +45,7 @@ void PrintTarget(const Target & target)
 void PrintBuffer(const char * name, const std::vector<Record> & buffer)
 {
         std::cout << name << "\n";
-        for (auto & record : buffer) {
+        for (const auto & record : buffer) {
                 std::cout << record.GetDateTime().GetString() << ": " << record.GetMessage() << "\n";
         }
 }

@@ -28,7 +28,7 @@ namespace Citrus::Logging {
                         throw InvalidArgumentException("The size must be larger or equal to one", std::to_string(size));
                 }
 
-                buffer.resize(size);
+                buffer.reserve(size);
         }
 
         MemoryStrategyCircular::MemoryStrategyCircular(Callback callback, size_type size)
@@ -39,7 +39,12 @@ namespace Citrus::Logging {
 
         void MemoryStrategyCircular::Append(const Record & record)
         {
-                buffer[curr++] = record;
+                if (buffer.size() < size) {
+                        buffer.push_back(record);
+                        ++curr;
+                } else {
+                        buffer[curr++] = record;
+                }
 
                 if (curr == size) {
                         callback(this);
@@ -47,18 +52,25 @@ namespace Citrus::Logging {
                 }
         }
 
-        const std::vector<Record> & MemoryStrategyCircular::GetBuffer() const
+        std::vector<Record> MemoryStrategyCircular::GetBuffer() const
         {
-                if (curr == size) {
-                        return buffer;
-                }
-
                 std::vector<Record> result;
 
-                result.assign(buffer.begin() + curr, buffer.end());
-                result.assign(buffer.begin(), buffer.begin() + curr);
+                result.insert(result.begin(), buffer.begin(), buffer.begin() + curr);
+                result.insert(result.begin(), buffer.begin() + curr, buffer.end());
 
-                return std::move(result);
+                return result;
+        }
+
+        std::vector<Record> MemoryStrategyCircular::GetLatest() const
+        {
+                std::vector<Record> result;
+
+                if (curr != 0) {
+                        result.assign(buffer.begin(), buffer.begin() + curr);
+                }
+
+                return result;
         }
 
 } // namespace Citrus::Logging

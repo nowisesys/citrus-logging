@@ -31,9 +31,4 @@ namespace Citrus::Logging {
                 this->callback = callback;
         }
 
-        const std::vector<Record> & MemoryStrategy::GetBuffer() const
-        {
-                return buffer;
-        }
-
 } // namespace Citrus::Logging

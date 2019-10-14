@@ -17,23 +17,37 @@
 
 int main()
 {
-        MemoryStrategyCircular strategy1(6);
+        MemoryStrategyCircular strategy1(3);
         strategy1.OnOverflow([](const MemoryStrategy * strategy) {
-                PrintBuffer("+ Overflow (1)!", strategy->GetBuffer());
+                PrintBuffer("+ Overflow (1L)!", strategy->GetLatest());
+                PrintBuffer("+ Overflow (1B)!", strategy->GetBuffer());
         });
 
         MemoryStrategyCircular strategy2([](const MemoryStrategy * strategy) {
-                PrintBuffer("+ Overflow (2)!", strategy->GetBuffer());
-        });
+                PrintBuffer("+ Overflow (2L)!", strategy->GetLatest());
+                PrintBuffer("+ Overflow (2B)!", strategy->GetBuffer());
+        }); // Has size == 25 by default
 
-        PrintBuffer("+ Buffer (1):", strategy1.GetBuffer());
-        PrintBuffer("+ Buffer (2):", strategy2.GetBuffer());
+        PrintBuffer("+ Buffer (1L):", strategy1.GetLatest());
+        PrintBuffer("+ Buffer (2L):", strategy2.GetLatest());
+        PrintBuffer("+ Buffer (1B):", strategy1.GetBuffer());
+        PrintBuffer("+ Buffer (2B):", strategy2.GetBuffer());
 
         PrintStrategy("+ Strategy (1)", &strategy1);
         PrintStrategy("+ Strategy (2)", &strategy2);
 
-        PrintBuffer("+ Buffer (1):", strategy1.GetBuffer());
-        PrintBuffer("+ Buffer (2):", strategy2.GetBuffer());
+        PrintBuffer("+ Buffer (1L):", strategy1.GetLatest());
+        PrintBuffer("+ Buffer (2L):", strategy2.GetLatest());
+        PrintBuffer("+ Buffer (1B):", strategy1.GetBuffer());
+        PrintBuffer("+ Buffer (2B):", strategy2.GetBuffer());
+
+        strategy1.Append(Record("test 1"));
+        strategy1.Append(Record("test 2"));
+        strategy1.Append(Record("test 3")); // <- Causes overflow
+        strategy1.Append(Record("test 4"));
+
+        PrintBuffer("+ Buffer (1L):", strategy1.GetLatest());
+        PrintBuffer("+ Buffer (1B):", strategy1.GetBuffer());
 
         return 0;
 }

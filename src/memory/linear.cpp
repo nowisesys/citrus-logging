@@ -19,8 +19,6 @@
 
 #include "logging.hpp"
 
-#include <iostream>
-
 namespace Citrus::Logging {
 
         MemoryStrategyLinear::MemoryStrategyLinear(size_type size)
@@ -47,6 +45,16 @@ namespace Citrus::Logging {
                         callback(this);
                         buffer.clear();
                 }
+        }
+
+        std::vector<Record> MemoryStrategyLinear::GetBuffer() const
+        {
+                return buffer;
+        }
+
+        std::vector<Record> MemoryStrategyLinear::GetLatest() const
+        {
+                return buffer;
         }
 
 } // namespace Citrus::Logging
