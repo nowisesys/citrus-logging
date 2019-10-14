@@ -35,6 +35,13 @@ namespace Citrus::Logging {
                 this->callback = callback;
         }
 
+        MemoryStrategyGrowing::~MemoryStrategyGrowing()
+        {
+                if (last % size != 0) {
+                        callback(this); // Has unsynced records
+                }
+        }
+
         void MemoryStrategyGrowing::Append(const Record & record)
         {
                 buffer.push_back(record);

@@ -37,6 +37,13 @@ namespace Citrus::Logging {
                 this->callback = callback;
         }
 
+        MemoryStrategyCircular::~MemoryStrategyCircular()
+        {
+                if (curr != 0) {
+                        callback(this); // Has unsynced records
+                }
+        }
+
         void MemoryStrategyCircular::Append(const Record & record)
         {
                 if (buffer.size() < size) {

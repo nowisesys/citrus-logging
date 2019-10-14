@@ -19,7 +19,7 @@
 
 #include "logging.hpp"
 
-#include <iostream>
+#include <cstring>
 
 namespace Citrus::Logging {
 
@@ -39,6 +39,36 @@ namespace Citrus::Logging {
             : Target(FormatZero())
         {
                 this->strategy = strategy;
+        }
+
+        TargetMemory::TargetMemory(const TargetMemory & other)
+            : Target(other.format)
+        {
+                this->strategy = other.strategy->Clone();
+        }
+
+        TargetMemory::TargetMemory(TargetMemory && other) noexcept
+            : Target(FormatZero())
+        {
+                this->strategy = std::exchange(other.strategy, nullptr);
+        }
+
+        TargetMemory & TargetMemory::operator=(const TargetMemory & other)
+        {
+                if (this != &other) {
+                        *this = TargetMemory(other);
+                }
+
+                return *this;
+        }
+
+        TargetMemory & TargetMemory::operator=(TargetMemory && other) noexcept
+        {
+                if (this != &other) {
+                        strategy = std::exchange(other.strategy, nullptr);
+                }
+
+                return *this;
         }
 
         TargetMemory::~TargetMemory()

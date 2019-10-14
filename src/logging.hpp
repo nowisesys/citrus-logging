@@ -527,7 +527,12 @@ namespace Citrus::Logging {
                 TargetMemory(int size = 25);
                 TargetMemory(Callback callback, int size = 25);
                 TargetMemory(MemoryStrategy * strategy); // This object takes ownership of strategy
+                TargetMemory(const TargetMemory & other);
+                TargetMemory(TargetMemory && other) noexcept;
                 ~TargetMemory();
+
+                TargetMemory & operator=(const TargetMemory & other);
+                TargetMemory & operator=(TargetMemory && other) noexcept;
 
                 void Append(const Record & record) const override;
 
@@ -552,6 +557,8 @@ namespace Citrus::Logging {
                 virtual std::vector<Record> GetBuffer() const = 0;
                 virtual std::vector<Record> GetLatest() const = 0; // Since last overflow
 
+                virtual MemoryStrategy * Clone() const noexcept = 0;
+
             protected:
                 std::vector<Record> buffer;
                 Callback callback;
@@ -562,10 +569,16 @@ namespace Citrus::Logging {
             public:
                 MemoryStrategyGrowing(size_type size = 25);
                 MemoryStrategyGrowing(Callback callback, size_type size = 25);
+                ~MemoryStrategyGrowing();
 
                 void Append(const Record & record) override;
                 std::vector<Record> GetBuffer() const override;
                 std::vector<Record> GetLatest() const override;
+
+                MemoryStrategy * Clone() const noexcept override
+                {
+                        return new MemoryStrategyGrowing(*this);
+                }
 
             private:
                 size_type size;
@@ -577,10 +590,16 @@ namespace Citrus::Logging {
             public:
                 MemoryStrategyLinear(size_type size = 25);
                 MemoryStrategyLinear(Callback callback, size_type size = 25);
+                ~MemoryStrategyLinear();
 
                 void Append(const Record & record) override;
                 std::vector<Record> GetBuffer() const override;
                 std::vector<Record> GetLatest() const override;
+
+                MemoryStrategy * Clone() const noexcept override
+                {
+                        return new MemoryStrategyLinear(*this);
+                }
 
             private:
                 size_type size;
@@ -591,10 +610,16 @@ namespace Citrus::Logging {
             public:
                 MemoryStrategyCircular(size_type size = 25);
                 MemoryStrategyCircular(Callback callback, size_type size = 25);
+                ~MemoryStrategyCircular();
 
                 void Append(const Record & record) override;
                 std::vector<Record> GetBuffer() const override;
                 std::vector<Record> GetLatest() const override;
+
+                MemoryStrategy * Clone() const noexcept override
+                {
+                        return new MemoryStrategyCircular(*this);
+                }
 
             private:
                 size_type size;

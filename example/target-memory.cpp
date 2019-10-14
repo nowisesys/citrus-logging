@@ -14,7 +14,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "support.hpp"
-#include <iostream>
 
 class Synchronize
 {
@@ -59,6 +58,28 @@ int main()
         // Uses functional object.
         //
         PrintTarget(TargetMemory(Synchronize(), 2));
+
+        //
+        // Test i.e. move assignments.
+        //
+        TargetMemory target1, target2;
+
+        target1.Append(Record());
+        PrintBuffer("Target 1A:", target1.GetMemoryStrategy()->GetBuffer()); // 1 record
+        PrintBuffer("Target 2A:", target2.GetMemoryStrategy()->GetBuffer()); // 0 record
+
+        target2 = target1;                                                   // Will duplicate records too
+        PrintBuffer("Target 1B:", target1.GetMemoryStrategy()->GetBuffer()); // 1 record
+        PrintBuffer("Target 2B:", target2.GetMemoryStrategy()->GetBuffer()); // 1 record
+
+        target1 = target1;
+        target2.Append(Record(Level::Notice, "Second target"));
+        PrintBuffer("Target 1C:", target1.GetMemoryStrategy()->GetBuffer()); // 1 record
+        PrintBuffer("Target 2C:", target2.GetMemoryStrategy()->GetBuffer()); // 2 record
+
+        target1 = std::move(target2);
+        PrintBuffer("Target 1D:", target1.GetMemoryStrategy()->GetBuffer()); // 2 record
+        // PrintBuffer("Target 2D:", target2.GetMemoryStrategy()->GetBuffer()); // No longer valid
 
         return 0;
 }
