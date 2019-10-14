@@ -19,15 +19,33 @@
 
 #include "logging.hpp"
 
+#include <iostream>
+
 namespace Citrus::Logging {
 
-        Target::Target(const Format & format)
-            : format(format) {}
-
-        void Target::Append(const std::vector<Record> & records) const
+        MemoryStrategyLinear::MemoryStrategyLinear(size_type size)
+            : size(size)
         {
-                for (auto & record : records) {
-                        Append(record);
+                if (size <= 0) {
+                        throw InvalidArgumentException("The size must be larger or equal to one", std::to_string(size));
+                }
+
+                buffer.reserve(size);
+        }
+
+        MemoryStrategyLinear::MemoryStrategyLinear(Callback callback, size_type size)
+            : MemoryStrategyLinear(size)
+        {
+                this->callback = callback;
+        }
+
+        void MemoryStrategyLinear::Append(const Record & record)
+        {
+                buffer.push_back(record);
+
+                if (buffer.size() == size) {
+                        callback(this);
+                        buffer.clear();
                 }
         }
 

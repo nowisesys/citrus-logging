@@ -11,8 +11,9 @@ noinst_PROGRAMS = \
     format-prefix format-zero format-user format-xml \
     format-column format-string \
     target-file target-stream target-syslog target-http \
-    target-smtp \
-    utils-uuid utils-escape
+    target-smtp target-memory \
+    utils-uuid utils-escape \
+    memory-growing memory-linear memory-circular
 
 logger_SOURCES = logger.cpp
 logger_LDADD = ../src/libcitrus-logging.la
@@ -83,9 +84,21 @@ target_http_LDADD = ../src/libcitrus-logging.la libsupport.a
 target_smtp_SOURCES = target-smtp.cpp
 target_smtp_LDADD = ../src/libcitrus-logging.la libsupport.a
 
+target_memory_SOURCES = target-memory.cpp
+target_memory_LDADD = ../src/libcitrus-logging.la libsupport.a
+
 utils_uuid_SOURCES = utils-uuid.cpp
 utils_uuid_LDADD = ../src/libcitrus-logging.la @UUID_LIBS@
 utils_uuid_CPPFLAGS = $(AM_CPPFLAGS) @UUID_CFLAGS@
 
 utils_escape_SOURCES = utils-escape.cpp
 utils_escape_LDADD = ../src/libcitrus-logging.la
+
+memory_growing_SOURCES = memory-growing.cpp
+memory_growing_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+memory_linear_SOURCES = memory-linear.cpp
+memory_linear_LDADD = ../src/libcitrus-logging.la libsupport.a
+
+memory_circular_SOURCES = memory-circular.cpp
+memory_circular_LDADD = ../src/libcitrus-logging.la libsupport.a

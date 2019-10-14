@@ -13,11 +13,13 @@ libcitrus_logging_la_SOURCES = logging.hpp logging.cpp \
     utils/escape.cpp utils/escape.hpp utils/curl.hpp utils/curl.cpp \
     utils/uuid.cpp utils/uuid.hpp \
     target/file.cpp target/stream.cpp target/syslog.cpp \
-    target/http.cpp target/smtp.cpp \
+    target/http.cpp target/smtp.cpp target/memory.cpp \
     format/text.cpp format/json.cpp format/csv.cpp \
     format/sql.cpp  format/zero.cpp format/prefix.cpp \
     format/user.cpp format/xml.cpp format/column.cpp \
-    format/string.cpp
+    format/string.cpp \
+    memory/linear.cpp memory/circular.cpp memory/growing.cpp \
+    memory/strategy.cpp
 
 libcitrus_logging_la_LDFLAGS  = -version-info 1:0:0 @LIBCURL@ @UUID_LIBS@
 libcitrus_logging_la_CXXFLAGS = -DLIBCITRUS_EXPORTS=1 @LIBCURL_CPPFLAGS@ @UUID_CFLAGS@

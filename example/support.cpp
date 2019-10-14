@@ -41,3 +41,19 @@ void PrintTarget(const Target & target)
         target.Append(Record(Level::Critical, "Hello world!"));
         target.Append(Record(Level::Emergent, "Hello world!"));
 }
+
+void PrintBuffer(const char * name, const std::vector<Record> & buffer)
+{
+        std::cout << name << "\n";
+        for (auto & record : buffer) {
+                std::cout << record.GetDateTime().GetString() << ": " << record.GetMessage() << "\n";
+        }
+}
+
+void PrintStrategy(const char * name, MemoryStrategy * strategy)
+{
+        std::cout << name << "\n";
+        for (int i = 0; i < 30; ++i) {
+                strategy->Append(Record(std::to_string(i)));
+        }
+}

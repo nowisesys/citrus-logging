@@ -175,6 +175,7 @@ namespace Citrus::Logging {
             public:
                 virtual ~Target() = default;
                 virtual void Append(const Record & record) const = 0;
+                virtual void Append(const std::vector<Record> & records) const;
 
             protected:
                 Target(const Format & format);
@@ -515,6 +516,82 @@ namespace Citrus::Logging {
         class TargetDiscard : public Target
         {
                 void Append(const Record & record) const override {}
+        };
+
+        class MemoryStrategy;
+        class TargetMemory : public Target
+        {
+            public:
+                using Callback = std::function<void(const MemoryStrategy *)>;
+
+                TargetMemory(int size = 25);
+                TargetMemory(Callback callback, int size = 25);
+                TargetMemory(MemoryStrategy * strategy); // This object takes ownership of strategy
+                ~TargetMemory();
+
+                void Append(const Record & record) const override;
+
+                MemoryStrategy * GetMemoryStrategy();
+
+            private:
+                MemoryStrategy * strategy;
+        };
+
+        class MemoryStrategy
+        {
+            public:
+                using Callback = std::function<void(const MemoryStrategy *)>;
+                using size_type = std::vector<Record>::size_type;
+
+                explicit MemoryStrategy();
+                virtual ~MemoryStrategy() = default;
+
+                void OnOverflow(Callback callback);
+
+                virtual void Append(const Record & record) = 0;
+                virtual const std::vector<Record> & GetBuffer() const;
+
+            protected:
+                std::vector<Record> buffer;
+                Callback callback;
+        };
+
+        class MemoryStrategyGrowing : public MemoryStrategy
+        {
+            public:
+                MemoryStrategyGrowing(size_type size = 100);
+                MemoryStrategyGrowing(Callback callback, size_type size = 25);
+
+                void Append(const Record & record) override;
+
+            private:
+                size_type size;
+        };
+
+        class MemoryStrategyLinear : public MemoryStrategy
+        {
+            public:
+                MemoryStrategyLinear(size_type size = 25);
+                MemoryStrategyLinear(Callback callback, size_type size = 25);
+
+                void Append(const Record & record) override;
+
+            private:
+                size_type size;
+        };
+
+        class MemoryStrategyCircular : public MemoryStrategy
+        {
+            public:
+                MemoryStrategyCircular(size_type size = 25);
+                MemoryStrategyCircular(Callback callback, size_type size = 25);
+
+                void Append(const Record & record) override;
+                const std::vector<Record> & GetBuffer() const override;
+
+            private:
+                size_type size;
+                size_type curr;
         };
 
 } // namespace Citrus::Logging

@@ -19,16 +19,41 @@
 
 #include "logging.hpp"
 
+#include <iostream>
+
 namespace Citrus::Logging {
 
-        Target::Target(const Format & format)
-            : format(format) {}
-
-        void Target::Append(const std::vector<Record> & records) const
+        TargetMemory::TargetMemory(int size)
+            : Target(FormatZero())
         {
-                for (auto & record : records) {
-                        Append(record);
-                }
+                this->strategy = new MemoryStrategyCircular(size);
+        }
+
+        TargetMemory::TargetMemory(Callback callback, int size)
+            : Target(FormatZero())
+        {
+                this->strategy = new MemoryStrategyCircular(callback, size);
+        }
+
+        TargetMemory::TargetMemory(MemoryStrategy * strategy)
+            : Target(FormatZero())
+        {
+                this->strategy = strategy;
+        }
+
+        TargetMemory::~TargetMemory()
+        {
+                delete strategy;
+        }
+
+        void TargetMemory::Append(const Record & record) const
+        {
+                strategy->Append(record);
+        }
+
+        MemoryStrategy * TargetMemory::GetMemoryStrategy()
+        {
+                return strategy;
         }
 
 } // namespace Citrus::Logging

@@ -22,5 +22,9 @@ target-stream
 target-syslog
 target-http
 target-smtp
+target-memory
 utils-uuid
 utils-escape
+memory-circular
+memory-growing
+memory-linear

@@ -21,13 +21,26 @@
 
 namespace Citrus::Logging {
 
-        Target::Target(const Format & format)
-            : format(format) {}
-
-        void Target::Append(const std::vector<Record> & records) const
+        MemoryStrategyGrowing::MemoryStrategyGrowing(size_type size)
+            : size(size)
         {
-                for (auto & record : records) {
-                        Append(record);
+                if (size <= 0) {
+                        throw InvalidArgumentException("The size must be larger or equal to one", std::to_string(size));
+                }
+        }
+
+        MemoryStrategyGrowing::MemoryStrategyGrowing(Callback callback, size_type size)
+            : MemoryStrategyGrowing(size)
+        {
+                this->callback = callback;
+        }
+
+        void MemoryStrategyGrowing::Append(const Record & record)
+        {
+                buffer.push_back(record);
+
+                if (buffer.size() % size == 0) {
+                        callback(this);
                 }
         }
 

@@ -21,14 +21,19 @@
 
 namespace Citrus::Logging {
 
-        Target::Target(const Format & format)
-            : format(format) {}
-
-        void Target::Append(const std::vector<Record> & records) const
+        MemoryStrategy::MemoryStrategy()
+            : callback([](const MemoryStrategy *) {})
         {
-                for (auto & record : records) {
-                        Append(record);
-                }
+        }
+
+        void MemoryStrategy::OnOverflow(Callback callback)
+        {
+                this->callback = callback;
+        }
+
+        const std::vector<Record> & MemoryStrategy::GetBuffer() const
+        {
+                return buffer;
         }
 
 } // namespace Citrus::Logging
