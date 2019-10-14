@@ -26,8 +26,9 @@ using namespace Citrus::Logging;
 
 void PrintFormat(const Format & format);
 void PrintTarget(const Target & target);
+void PrintVector(const Target & target);
 
-void PrintBuffer(const char *name, const std::vector<Record> & buffer);
-void PrintStrategy(const char *name, MemoryStrategy * strategy);
+void PrintBuffer(const char * name, const std::vector<Record> & buffer);
+void PrintStrategy(const char * name, MemoryStrategy * strategy);
 
 #endif // LIBCITRUS_EXAMPLE_SUPPORT_HPP

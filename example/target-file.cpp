@@ -22,5 +22,7 @@ int main()
         PrintTarget(TargetFile("/tmp/output.json", FormatJson()));
         PrintTarget(TargetFile("/tmp/output.sql", FormatSql()));
 
+        PrintVector(TargetFile("/tmp/output-multi.txt"));
+
         return 0;
 }

@@ -15,31 +15,48 @@
 
 #include "support.hpp"
 #include <iostream>
+#include <vector>
 
 using namespace Citrus::Logging;
 
 void PrintFormat(const Format & format)
 {
-        std::cout << format.GetMessage(Record(Level::Debug, "Hello world"))
-                  << format.GetMessage(Record(Level::Information, "Hello world"))
-                  << format.GetMessage(Record(Level::Notice, "Hello world"))
-                  << format.GetMessage(Record(Level::Warning, "Hello world"))
-                  << format.GetMessage(Record(Level::Error, "Hello world"))
-                  << format.GetMessage(Record(Level::Alert, "Hello world"))
-                  << format.GetMessage(Record(Level::Critical, "Hello world"))
-                  << format.GetMessage(Record(Level::Emergent, "Hello world"));
+        std::cout << format.GetMessage(Record(Level::Debug, "Message 1"))
+                  << format.GetMessage(Record(Level::Information, "Message 2"))
+                  << format.GetMessage(Record(Level::Notice, "Message 3"))
+                  << format.GetMessage(Record(Level::Warning, "Message 4"))
+                  << format.GetMessage(Record(Level::Error, "Message 5"))
+                  << format.GetMessage(Record(Level::Alert, "Message 6"))
+                  << format.GetMessage(Record(Level::Critical, "Message 7"))
+                  << format.GetMessage(Record(Level::Emergent, "Message 8"));
 }
 
 void PrintTarget(const Target & target)
 {
-        target.Append(Record(Level::Debug, "Hello world!"));
-        target.Append(Record(Level::Information, "Hello world!"));
-        target.Append(Record(Level::Notice, "Hello world!"));
-        target.Append(Record(Level::Warning, "Hello world!"));
-        target.Append(Record(Level::Error, "Hello world!"));
-        target.Append(Record(Level::Alert, "Hello world!"));
-        target.Append(Record(Level::Critical, "Hello world!"));
-        target.Append(Record(Level::Emergent, "Hello world!"));
+        target.Append(Record(Level::Debug, "Message 1"));
+        target.Append(Record(Level::Information, "Message 2"));
+        target.Append(Record(Level::Notice, "Message 3"));
+        target.Append(Record(Level::Warning, "Message 4"));
+        target.Append(Record(Level::Error, "Message 5"));
+        target.Append(Record(Level::Alert, "Message 6"));
+        target.Append(Record(Level::Critical, "Message 7"));
+        target.Append(Record(Level::Emergent, "Message 8"));
+}
+
+void PrintVector(const Target & target)
+{
+        std::vector<Record> records;
+
+        records.push_back(Record(Level::Debug, "Message 1"));
+        records.push_back(Record(Level::Information, "Message 2"));
+        records.push_back(Record(Level::Notice, "Message 3"));
+        records.push_back(Record(Level::Warning, "Message 4"));
+        records.push_back(Record(Level::Error, "Message 5"));
+        records.push_back(Record(Level::Alert, "Message 6"));
+        records.push_back(Record(Level::Critical, "Message 7"));
+        records.push_back(Record(Level::Emergent, "Message 8"));
+
+        target.Append(records);
 }
 
 void PrintBuffer(const char * name, const std::vector<Record> & buffer)
