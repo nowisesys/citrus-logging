@@ -69,6 +69,25 @@ TargetSmtp target("smtp://smtp.unix.qnet", message, formatter);
 target.SetOption(CURLOPT_VERBOSE, 1);
 ```
 
+### Buffering
+
+The memory and buffer targets are pseudo-targets without a real target on their own. Instead they both acts as buffers for logged records, but in a slightly different way.
+
+The first pseudo-target is the memory target that provides in RAM storage of logged records, with an std::function (i.e. lambda or functional object) being called on overflow. It's also possible to use this class without an overflow handler.
+
+```c++
+TargetMemory target([](const MemoryStrategy * strategy) {
+        WriteRecord(strategy->GetLatest());     // Overflow
+});
+```
+The second pseudo-target is buffer that wraps any other target class. This example adds buffering of stderr causing it every fifth records to be flushed to the standard error stream:
+
+```c++
+TargetStream stream(std::cerr);
+TargetBuffer buffer(stream, 5);
+```
+One use case for these pseudo-targets could be to implement state-ful logging having them to check whether the log target is online and otherwise cache records.
+
 ## Formatters
 
 The list of formatters consist of numerous classes, i.e. **JSON**, **SQL**, **CSV**, **XML** and most target classes uses sensible default formatters. 
