@@ -27,7 +27,7 @@
 
 namespace {
 
-        class StringData
+        class LIBCITRUS_API_HIDDEN StringData
         {
             public:
                 std::string buffer;

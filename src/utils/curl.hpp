@@ -22,6 +22,8 @@
 
 #ifdef HAVE_LIBCURL
 
+#include "logging.hpp"
+
 #include <string>
 #include <vector>
 
@@ -29,7 +31,7 @@
 
 namespace Citrus::Logging {
 
-        class CurlHandle
+        class LIBCITRUS_API_HIDDEN CurlHandle
         {
             public:
                 typedef size_t Callback(char * buffer, size_t size, size_t nitems, void * userdata);
@@ -55,7 +57,7 @@ namespace Citrus::Logging {
                 CURL * curl;
         };
 
-        class CurlStringList
+        class LIBCITRUS_API_HIDDEN CurlStringList
         {
             public:
                 CurlStringList();

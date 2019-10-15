@@ -22,7 +22,7 @@
 
 namespace Citrus::Logging {
 
-        struct PlaceHolder
+        struct LIBCITRUS_API_HIDDEN PlaceHolder
         {
                 enum class Type
                 {

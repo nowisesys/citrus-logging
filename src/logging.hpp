@@ -31,6 +31,34 @@
 #include <curl/curl.h>
 #endif
 
+#if defined(WIN32) || defined(_WINDOWS) || defined(__CYGWIN__)
+/* Define LIBCITRUS_EXPORTS when building library on windows. */
+#if defined(LIBCITRUS_EXPORTS)
+#if defined(__GNUC__)
+#define LIBCITRUS_API_PUBLIC __attribute__((dllexport))
+#else
+/* Note: GCC seems to support this syntax too. */
+#define LIBCITRUS_API_PUBLIC __declspec(dllexport)
+#endif
+#else
+#if defined(__GNUC__)
+#define LIBCITRUS_API_PUBLIC __attribute__((dllimport))
+#else
+/* Note: actually gcc seems to also supports this syntax. */
+#define LIBCITRUS_API_PUBLIC __declspec(dllimport)
+#endif
+#endif
+#define LIBCITRUS_API_HIDDEN
+#else
+#if __GNUC__ >= 4
+#define LIBCITRUS_API_PUBLIC __attribute__((visibility("default")))
+#define LIBCITRUS_API_HIDDEN __attribute__((visibility("hidden")))
+#else
+#define LIBCITRUS_API_PUBLIC
+#define LIBCITRUS_API_HIDDEN
+#endif
+#endif
+
 namespace Citrus::Logging {
 
         using Arguments = std::vector<std::any>;
@@ -38,7 +66,7 @@ namespace Citrus::Logging {
         class CurlHandle;
         class CurlStringList;
 
-        class InvalidArgumentException : public std::invalid_argument
+        class LIBCITRUS_API_PUBLIC InvalidArgumentException : public std::invalid_argument
         {
             public:
                 template <typename T>
@@ -48,7 +76,7 @@ namespace Citrus::Logging {
                     : std::invalid_argument(msg) {}
         };
 
-        class FileSystemException : public std::runtime_error
+        class LIBCITRUS_API_PUBLIC FileSystemException : public std::runtime_error
         {
             public:
                 FileSystemException(std::string msg, const char * path)
@@ -57,7 +85,7 @@ namespace Citrus::Logging {
                     : std::runtime_error(msg) {}
         };
 
-        class NetworkException : public std::runtime_error
+        class LIBCITRUS_API_PUBLIC NetworkException : public std::runtime_error
         {
             public:
                 NetworkException(std::string msg, const char * error)
@@ -66,7 +94,7 @@ namespace Citrus::Logging {
                     : std::runtime_error(msg) {}
         };
 
-        enum class Level
+        enum class LIBCITRUS_API_PUBLIC Level
         {
                 Debug,       // Debug level message
                 Information, // Informational message
@@ -78,7 +106,7 @@ namespace Citrus::Logging {
                 Emergent     // System is unusable
         };
 
-        class DateTime
+        class LIBCITRUS_API_PUBLIC DateTime
         {
             public:
                 using TimePoint = std::chrono::system_clock::time_point;
@@ -117,7 +145,7 @@ namespace Citrus::Logging {
                 TimePoint stamp;
         };
 
-        class Hostname
+        class LIBCITRUS_API_PUBLIC Hostname
         {
             public:
                 Hostname();
@@ -132,8 +160,8 @@ namespace Citrus::Logging {
                 std::string hostname;
         };
 
-        class Format;
-        class Record
+        class LIBCITRUS_API_PUBLIC Format;
+        class LIBCITRUS_API_PUBLIC Record
         {
             public:
                 Record();
@@ -163,14 +191,14 @@ namespace Citrus::Logging {
                 DateTime stamp;
         };
 
-        class Format
+        class LIBCITRUS_API_PUBLIC Format
         {
             public:
                 virtual std::string GetMessage(const Record & record) const = 0;
                 static std::string GetSeverity(Level level);
         };
 
-        class Target
+        class LIBCITRUS_API_PUBLIC Target
         {
             public:
                 virtual ~Target() = default;
@@ -182,14 +210,14 @@ namespace Citrus::Logging {
                 const Format & format;
         };
 
-        class Message
+        class LIBCITRUS_API_PUBLIC Message
         {
             public:
                 static std::string Format(const char * format, const Arguments & args = Arguments());
                 static std::string Format(const std::string & format, const Arguments & args = Arguments());
         };
 
-        class Sender
+        class LIBCITRUS_API_PUBLIC Sender
         {
             public:
                 void Register(Target * target);
@@ -204,7 +232,7 @@ namespace Citrus::Logging {
                 std::map<Level, std::vector<Target *>> targets;
         };
 
-        class Logger
+        class LIBCITRUS_API_PUBLIC Logger
         {
             public:
                 Logger() : threshold(Level::Information) {}
@@ -237,13 +265,13 @@ namespace Citrus::Logging {
                 std::string ident;
         };
 
-        class FormatZero : public Format
+        class LIBCITRUS_API_PUBLIC FormatZero : public Format
         {
             public:
                 std::string GetMessage(const Record & record) const override;
         };
 
-        class FormatText : public Format
+        class LIBCITRUS_API_PUBLIC FormatText : public Format
         {
             public:
                 FormatText(char field = '\t', char lines = '\n');
@@ -254,7 +282,7 @@ namespace Citrus::Logging {
                 char lines;
         };
 
-        class FormatJson : public Format
+        class LIBCITRUS_API_PUBLIC FormatJson : public Format
         {
             public:
                 FormatJson(bool pretty = false);
@@ -264,7 +292,7 @@ namespace Citrus::Logging {
                 bool pretty;
         };
 
-        class FormatXml : public Format
+        class LIBCITRUS_API_PUBLIC FormatXml : public Format
         {
             public:
                 FormatXml(bool pretty = false, bool attrib = true);
@@ -275,7 +303,7 @@ namespace Citrus::Logging {
                 bool attrib;
         };
 
-        class FormatCsv : public Format
+        class LIBCITRUS_API_PUBLIC FormatCsv : public Format
         {
             public:
                 FormatCsv(char delimit = ',', char enclose = '"', char escape = '\\');
@@ -287,7 +315,7 @@ namespace Citrus::Logging {
                 char escape;
         };
 
-        class FormatSql : public Format
+        class LIBCITRUS_API_PUBLIC FormatSql : public Format
         {
             public:
                 FormatSql();
@@ -301,7 +329,7 @@ namespace Citrus::Logging {
                 std::map<std::string, std::string> columns;
         };
 
-        class FormatPrefix : public Format
+        class LIBCITRUS_API_PUBLIC FormatPrefix : public Format
         {
             public:
                 enum class Mapping
@@ -322,7 +350,7 @@ namespace Citrus::Logging {
                 std::map<Level, std::string> mapping;
         };
 
-        class FormatUser : public Format
+        class LIBCITRUS_API_PUBLIC FormatUser : public Format
         {
             public:
                 FormatUser(const std::function<std::string(const Record & record)> & formatter);
@@ -332,7 +360,7 @@ namespace Citrus::Logging {
                 const std::function<std::string(const Record & record)> & formatter;
         };
 
-        class FormatColumn : public Format
+        class LIBCITRUS_API_PUBLIC FormatColumn : public Format
         {
             public:
                 FormatColumn(char field = ':', char lines = '\n');
@@ -343,7 +371,7 @@ namespace Citrus::Logging {
                 char lines;
         };
 
-        class FormatString : public Format
+        class LIBCITRUS_API_PUBLIC FormatString : public Format
         {
             public:
                 FormatString(const std::string & format); // %1 -> datetime, %2 -> hostname, %3 -> identity, %4 -> message, %5 -> priority, %6 -> process
@@ -363,7 +391,7 @@ namespace Citrus::Logging {
                 }
         };
 
-        class TargetFile : public Target
+        class LIBCITRUS_API_PUBLIC TargetFile : public Target
         {
             public:
                 TargetFile(const char * filename, const Format & format = RecordFormat<FormatText>::Object());
@@ -374,7 +402,7 @@ namespace Citrus::Logging {
                 std::string filename;
         };
 
-        class TargetStream : public Target
+        class LIBCITRUS_API_PUBLIC TargetStream : public Target
         {
             public:
                 TargetStream(std::ostream & stream, const Format & format = RecordFormat<FormatText>::Object());
@@ -385,7 +413,7 @@ namespace Citrus::Logging {
         };
 
 #if defined(HAVE_SYSLOG_H)
-        class TargetSyslog : public Target
+        class LIBCITRUS_API_PUBLIC TargetSyslog : public Target
         {
             public:
                 TargetSyslog(const char * ident, const Format & format);
@@ -397,7 +425,7 @@ namespace Citrus::Logging {
 #endif
 
 #if defined(HAVE_LIBCURL) && defined(LIBCURL_PROTOCOL_HTTP)
-        class TargetHttp : public Target
+        class LIBCITRUS_API_PUBLIC TargetHttp : public Target
         {
             public:
                 TargetHttp(const std::string & url, const Format & format = RecordFormat<FormatJson>::Object());
@@ -420,7 +448,7 @@ namespace Citrus::Logging {
 #endif
 
 #if defined(HAVE_LIBCURL) && defined(LIBCURL_PROTOCOL_SMTP)
-        class TargetSmtp : public Target
+        class LIBCITRUS_API_PUBLIC TargetSmtp : public Target
         {
             public:
                 struct Address
@@ -514,13 +542,13 @@ namespace Citrus::Logging {
         };
 #endif
 
-        class TargetDiscard : public Target
+        class LIBCITRUS_API_PUBLIC TargetDiscard : public Target
         {
                 void Append(const Record & record) const override {}
         };
 
-        class MemoryStrategy;
-        class TargetMemory : public Target
+        class LIBCITRUS_API_PUBLIC MemoryStrategy;
+        class LIBCITRUS_API_PUBLIC TargetMemory : public Target
         {
             public:
                 using Callback = std::function<void(const MemoryStrategy *)>;
@@ -544,14 +572,14 @@ namespace Citrus::Logging {
                 MemoryStrategy * strategy;
         };
 
-        class MemoryStrategy
+        class LIBCITRUS_API_PUBLIC MemoryStrategy
         {
             public:
                 using Callback = TargetMemory::Callback;
                 using size_type = TargetMemory::size_type;
 
                 explicit MemoryStrategy();
-                
+
                 MemoryStrategy(const MemoryStrategy &) = default;
                 virtual ~MemoryStrategy() = default;
 
@@ -568,7 +596,7 @@ namespace Citrus::Logging {
                 Callback callback;
         };
 
-        class MemoryStrategyGrowing : public MemoryStrategy
+        class LIBCITRUS_API_PUBLIC MemoryStrategyGrowing : public MemoryStrategy
         {
             public:
                 MemoryStrategyGrowing(size_type size = 25);
@@ -589,7 +617,7 @@ namespace Citrus::Logging {
                 size_type last;
         };
 
-        class MemoryStrategyLinear : public MemoryStrategy
+        class LIBCITRUS_API_PUBLIC MemoryStrategyLinear : public MemoryStrategy
         {
             public:
                 MemoryStrategyLinear(size_type size = 25);
@@ -609,7 +637,7 @@ namespace Citrus::Logging {
                 size_type size;
         };
 
-        class MemoryStrategyCircular : public MemoryStrategy
+        class LIBCITRUS_API_PUBLIC MemoryStrategyCircular : public MemoryStrategy
         {
             public:
                 MemoryStrategyCircular(size_type size = 25);
@@ -630,7 +658,7 @@ namespace Citrus::Logging {
                 size_type curr;
         };
 
-        class TargetBuffer : public TargetMemory
+        class LIBCITRUS_API_PUBLIC TargetBuffer : public TargetMemory
         {
             public:
                 using size_type = TargetMemory::size_type;
